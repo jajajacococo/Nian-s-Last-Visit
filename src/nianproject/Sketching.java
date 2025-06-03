@@ -19,7 +19,6 @@ public class Sketching extends PApplet{
     boolean dHold= false;
     
 
-    ScrollingBackground scrollingBG;
 
     
     
@@ -30,7 +29,6 @@ public class Sketching extends PApplet{
     
     @Override 
     public void setup(){
-        scrollingBG = new ScrollingBackground(this, "imgs/background.png");
         you = new Character(this,300-32,250-48);
         
     }
@@ -55,6 +53,7 @@ public class Sketching extends PApplet{
     
     @Override
     public void draw(){
+        background(255);
     int dx = 0, dy = 0;
      int speed = 1;
 
@@ -63,8 +62,6 @@ public class Sketching extends PApplet{
      else if (aHold) dx = -speed;
      else if (dHold) dx = speed;
 
-     scrollingBG.update(dx, dy);
-     scrollingBG.draw();
      you.move(dx, dy);
      you.draw();
     }
