@@ -13,11 +13,17 @@ import processing.core.PImage;
 public class Sketching extends PApplet{
     // Objects
     private Character you;
-    boolean wHold= false; 
-    boolean sHold= false; 
-    boolean aHold= false; 
-    boolean dHold= false;
-    
+    private Scene s1;
+    private boolean wHold= false; 
+    private boolean sHold= false; 
+    private boolean aHold= false; 
+    private boolean dHold= false;
+    private int scene = 0;
+    private int dx = 0, dy = 0;
+    private final int SPEED = 1;
+    private int opactimer = 255;
+    private int wait = 0;
+    private String fade="in";
 
 
     
@@ -25,12 +31,14 @@ public class Sketching extends PApplet{
     @Override // Get rid of yellow line
     public void settings(){
             size(600,500);
+            
         }
     
     @Override 
     public void setup(){
         you = new Character(this,300-32,250-48);
-        
+        s1 = new Scene(this);
+        background(255);
     }
     
     // Remove janky movement delay by only tracking when one key is pressed and released
@@ -53,17 +61,45 @@ public class Sketching extends PApplet{
     
     @Override
     public void draw(){
-        background(255);
-    int dx = 0, dy = 0;
-     int speed = 1;
+        
+        
+        if (scene ==0){
+            background(255);
+            s1.draw();
+            
+            // SO JANKY REDO
+            if (fade.equals("in")) {
+                if (opactimer > 0){
+                    opactimer--;
+                }
+                if (opactimer <= 0)
+                fade = "out";
+            } 
+            if (fade.equals("out")){
+                if (wait < 300){
+                    wait++;
+                }
+                if (wait >=300){
+                    if (opactimer < 255){
+                       opactimer++;
+                   }
+                }
+            }
+            
+            fill(0, 0, 0, opactimer);
+            rect(-1,-1,601,501);
+        }
+      
+        
+        if (scene != 0) {
+            if (wHold) dy = -SPEED;
+            else if (sHold) dy = SPEED;
+            else if (aHold) dx = -SPEED;
+            else if (dHold) dx = SPEED;
 
-     if (wHold) dy = -speed;
-     else if (sHold) dy = speed;
-     else if (aHold) dx = -speed;
-     else if (dHold) dx = speed;
-
-     you.move(dx, dy);
-     you.draw();
+            you.move(dx, dy);
+            you.draw();
+        }
     }
 
 }
