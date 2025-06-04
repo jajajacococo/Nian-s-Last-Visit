@@ -12,17 +12,28 @@ import processing.core.PImage;
  * @author 342380474
  */
 public class Scene {
-    protected PImage s1;
+    protected PImage current;
     protected PApplet app;
 
     
     public Scene(PApplet app){
         this.app=app;
-        s1 = app.loadImage("imgs/scene1.png");
-        
+        current = app.loadImage("imgs/scene1.png");  
     }
+    
+    public void changeScene(int x){
+        switch(x){
+            case 1:
+                current = app.loadImage("imgs/scene1.png");  
+                break;
+            case 2:
+                current = app.loadImage("imgs/NianAwaken.png");
+                break;
+        }
+    }
+    
     public void draw(){
-        app.image(s1,0,0,600,499);
+        app.image(current,0,0,600,499);
     }
     
 }
