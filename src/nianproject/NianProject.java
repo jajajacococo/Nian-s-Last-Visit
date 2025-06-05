@@ -19,4 +19,9 @@ public class NianProject {
      
     }
     
+    /**
+     * ⬚ 15. Use of file input for retrieving data from a flat-file (database) (DIALOGUE FROM GRAMPS??
+     * ⬚ 16. Use of file output for adding/modifying data to a flat-file (database) USER IDK TAKS COMPLELTE
+     */
+    
 }

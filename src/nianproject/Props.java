@@ -11,8 +11,21 @@ import processing.core.PImage;
  */
 public class Props {
     protected int x,y;
-    protected PImage img;
-    protected PApplet app;
+    private static int numofprops;
+    protected PImage current;
+    protected PApplet app;      
     
-    public Props(PApplet app){}
+    public Props(PApplet app, int x, int y){
+        this.app=app;
+        this.x=x;
+        this.y=y;
+        numofprops++;
+       
+    }
+  
+       
+    public void changeProp(int sprite){
+        System.out.println("Changed Prop to" + sprite);
+    }
 }
+
