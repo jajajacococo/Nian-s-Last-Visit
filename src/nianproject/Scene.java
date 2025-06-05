@@ -29,6 +29,10 @@ public class Scene {
             case 2:
                 current = app.loadImage("imgs/NianAwaken.png");
                 break;
+            case 3:
+                current = app.loadImage("imgs/NianAttack.png");
+                break;
+                
         }
     }
     

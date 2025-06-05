@@ -1,27 +1,57 @@
+// Imports and packages
 package nianproject;
-
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class Sketching extends PApplet {
-    private Character you;
-    private Scene slide;
+    // Objects
+    private Character you; // character
+    private Scene slide; // scene backgrounds etc
+    private PFont font; // text font
+    
+    // Key press and releasee detectors
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
-    private int scene = 0, dx = 0, dy = 0;
+    
+    // Scene/Stage counter.
+    private int scene = 0;
+    
+    // Character movement variables
+    private int dx = 0, dy = 0;
     private final int SPEED = 1;
-    private PFont font;
-    private int opactimer = 255, wait = 0, time = 0;
-    private boolean fadein = true, waiter = false;
+    
+    // Fade in and fade out timers and debounces
+    private int opac = 255, // opacity
+            wait = 0, // wait counter
+            time = 0; // time counter
+    private boolean fadein = true, // to allow fade in or out
+            waiter = false; // to allow / activate then next scene like a delay.
 
-    private String text = "February 3, 1045 BCE,";
-    private String displayText = "";
-    private int charCount = 0, typeSpeed = 5, typeFrameCount = 0;
+    // Typing animation variables
+    private String text = "February 3, 1045 BCE,"; // orignal text
+    private String displayText = ""; // displayed text
+    private int charCount = 0, // character index of the text
+            typeSpeed = 5, // speed to print out letters
+            typeFrameCount = 0; // frame counter 
+    
+    // Multiple Typing animations.
+    private String[] textString = {"Objective:","Gather all supplies to","escape before midnight."}; // orignal texts
+    private boolean[] debounceLine = new boolean[3];
+    private int[]charrayCount = {0,0,0}; //character index of the texts
+    private int[]tarraypeFrameCount = {0,0,0}; //frame counters
+    private String[] displayTexts = {"","",""}; // displayed texts
 
+    /**
+     * Sets the size of the display window.
+     */
     @Override
     public void settings() {
         size(600, 500);
     }
 
+    /**
+     * Initializes game components like the player character and background scene.
+     * Also loads the custom pixel font for rendering text.
+     */
     @Override
     public void setup() {
         you = new Character(this, 268, 202);
@@ -31,6 +61,11 @@ public class Sketching extends PApplet {
         textFont(font);
     }
 
+    /**
+     * The main draw loop for the game. (Called continuously SO ANNOYING TO WORK AROUND).
+     * Scenes:
+     * Handles scenes, activating fade transitions, typing animations, character movement.
+     */
     @Override
     public void draw() {
         if (scene == 0) {
@@ -38,12 +73,13 @@ public class Sketching extends PApplet {
             slide.changeScene(1);
             slide.draw();
             fadeinout(200, 2);
-            if (!fadein && opactimer >= 255) {
+            if (!fadein && opac >= 255) {
                 scene = 1;
                 fadein = true;
-                opactimer = 255;
+                opac = 255;
                 wait = 0;
             }
+            
         } else if (scene == 1) {
             if (charCount < text.length()) {
                 typeFrameCount++;
@@ -51,10 +87,10 @@ public class Sketching extends PApplet {
                     displayText += text.charAt(charCount);
                     charCount++;
                 }
-                if (charCount >= text.length()) text("11:30pm", 200, 300);
+                if (charCount >= text.length()) text("11:30pm", 220, 300);
             }
             fill(255);
-            text(displayText, 50, 225);
+            text(displayText, 60, 225);
             waiter = wait(350);
             if (waiter) {
                 waiter = false;
@@ -65,19 +101,56 @@ public class Sketching extends PApplet {
             slide.draw();
             fadeinout(80, 5);
             waiter = wait(100);
-            if (!fadein && opactimer >= 255 && waiter) {
+            if (!fadein && opac >= 255 && waiter) {
                 waiter = false;
-                scene = 5;
+                scene = 3;
                 fadein = true;
-                opactimer = 255;
+                opac = 255;
                 wait = 0;
             }
-        } else if (scene == 5) {
+            
+        } else if (scene == 3){
+            slide.changeScene(3);
+            slide.draw();
+            fadeinout(80, 5);
+            waiter = wait(100);
+            scene =4;
+
+        } else if (scene == 4){
+            
+            for (int i=0; i<textString.length; i++){
+                if (charrayCount[i] < textString[i].length()){
+                 tarraypeFrameCount[i]++;
+                    if (tarraypeFrameCount[i] % typeSpeed == 0) {
+                        displayTexts[i] += textString[i].charAt(charrayCount[i]);
+                        charrayCount[i]++;
+                    }
+            }
+               fill(255);
+               if (i==0){text(displayTexts[i], 200, 215 + (40*i));}
+               else text(displayTexts[i], 30, 215 + (40*i));
+            
+            }
+                
+                waiter = wait(350);
+                if (waiter) {
+                    waiter = false;
+                    scene = 5;
+                }
+        }
+        
+        
+        
+        else if (scene == 5) {
             background(255);
-            if (wHold) dy = -SPEED;
-            else if (sHold) dy = SPEED;
-            else if (aHold) dx = -SPEED;
-            else if (dHold) dx = SPEED;
+            dx = 0;
+            dy = 0;
+
+            if (wHold) dy -= SPEED;
+            else if (sHold) dy += SPEED;
+            else if (aHold) dx -= SPEED;
+            else if (dHold) dx += SPEED;
+
             you.move(dx, dy);
             you.draw();
         }
@@ -85,14 +158,14 @@ public class Sketching extends PApplet {
 
     public void fadeinout(int waitTime, int add) {
         if (fadein) {
-            if (opactimer > 0) opactimer -= add;
-            if (opactimer <= 0) fadein = false;
+            if (opac > 0) opac -= add;
+            if (opac <= 0) fadein = false;
         }
         if (!fadein) {
             if (wait < waitTime) wait++;
-            if (wait >= waitTime && opactimer < 255) opactimer += add;
+            if (wait >= waitTime && opac < 255) opac += add;
         }
-        fill(0, 0, 0, opactimer);
+        fill(0, 0, 0, opac);
         rect(-1, -1, 601, 501);
     }
 
@@ -119,4 +192,7 @@ public class Sketching extends PApplet {
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
     }
+    
+    
+    
 }
