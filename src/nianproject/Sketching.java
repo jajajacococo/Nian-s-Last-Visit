@@ -38,50 +38,38 @@ public class Sketching extends PApplet {
     private boolean fadein = true,  // To control fade-in effect
                     waiter = false; // To control the delay and trigger the next scene
 
-    
-    
-    
-    
-    
-    
-    
-    // Typing animation variables
-    private String text = "February 3, 1045 BCE,"; // original text
-    private String displayText = "";                // displayed text
-    private int charCount = 0,                      // character index of the text
-                typeSpeed = 5,                      // speed to print out letters
-                typeFrameCount = 0;                 // frame counter
+    // Variables for typing animation for single line
+    private String text = "February 3, 1045 BCE,"; // Text to display
+    private String displayText = "";                // Currently displayed lines
+    private int charCount = 0,                      // Index of text to display
+                typeSpeed = 5,                      // Delay between character display
+                typeFrameCount = 0;                 // Frame counter for counting
 
-    // Multiple typing animations
-    private String[] textString = { // original texts
+    // Variables for typing animation for mutliple lines
+    private String[] textString = { // Text to display
         "Objective:",
         "Gather all supplies to",
         "escape before midnight."
     }; 
-    private int[] charrayCount = {0, 0, 0};       // character index of the texts
-    private int[] tarraypeFrameCount = {0, 0, 0}; // frame counters
-    private String[] displayTexts = {"", "", ""}; // displayed texts
+    private int[] charrayCount = {0, 0, 0};       // Array of index of text to display
+    private int[] tarraypeFrameCount = {0, 0, 0}; // Array of frame counter for counting
+    private String[] displayTexts = {"", "", ""}; // Array of currently displayed lines
 
-    /**
-     * Sets the size of the display window.
-     */
+    /**Sets the size of the display window.*/
     @Override
     public void settings() {
         size(600, 500);
     }
 
-    /**
-     * Initializes game components such as the player, background, and other objects.
-     * Also loads the custom pixel font for rendering text.
-     */
+    /** Initializes/instantiating objects and resources for the game.*/
     @Override
     public void setup() {
         background(255); // Setting background to white
         
         // Instaniating the Objects
         you = new Character(this, 270, 50); // The player character
-        slide = new Scene(this); // the slideshow images
-        bg = new background(this); // the background images
+        slide = new Scene(this); // The slideshow images
+        bg = new background(this); // The background images
         box = new Transition[5]; // Declaring the size of the box object array
         
         // Instaniating the transition boxes for scene change.
@@ -91,9 +79,9 @@ public class Sketching extends PApplet {
         box[3] = new Transition(this, 130, 495, 50, 10);
         box[4] = new Transition(this, 420, 495, 50, 10);
         
-        // Pixel Font for tpying animations.
-        font = createFont("Pixel.otf", 32); // pixel font adn size 32
-        textFont(font); // initializing the text font.
+        // Load pixel Font for tpying animations.
+        font = createFont("Pixel.otf", 32); // pixel font file and size 32
+        textFont(font); 
     }
 
     /**
@@ -104,54 +92,62 @@ public class Sketching extends PApplet {
     @Override
     public void draw() {
         
-        // Scene 0
+        // Scene 0: Cutscene-ish/Information slide/Setting slide.
         if (scene == 0) {
             background(255);// Setting background to white
             
             slide.changeScene(1); // Changing the slide object to slide 1
-            slide.draw(); // drawing the slide
-            fadeinout(200, 2); // calling the fade transition method
+            slide.draw(); // Drawing the slide
+            fadeinout(200, 2); // Calling the fade transition method
             
-            if (!fadein && opac >= 255) { // if fadein is false and opacity variable is 255 or larger
-                scene = 1; // change to the next scene
-                fadein = true; // reset fadein
-                opac = 255; // reset opacity
-                wait = 0; // reset wait time
+            // Reset variables and change scene. 
+            // On cond of fadein=false, opac is 255 or larger.
+            if (!fadein && opac >= 255) { 
+                scene = 1;
+                fadein = true; 
+                opac = 255; 
+                wait = 0; 
             } 
         }
         
-        // Scene 1
+        // Scene 1: Single line typing animation for date/setting
         else if (scene == 1) {
             
-            // One by one text displaying
-            if (charCount < text.length()) { // checks if charCount is under the text length
-                typeFrameCount++; // increase framcount by 1
+            // Checks if there are still characters to print
+            if (charCount < text.length()) { 
+                typeFrameCount++; // Frame counter time increases by 1.
                 
-                // if framecount is divisble by 5... (for typing speed or how long to type one thing)
+                // If frame counter modulus by typeSpeed(5) = 0 -> start printing
                 if (typeFrameCount % typeSpeed == 0) { 
-                    displayText += text.charAt(charCount); // change the displaytext which 
-                    charCount++; 
+                    displayText += text.charAt(charCount); // Starting slowly adding each character to displayed variable.
+                    charCount++; // increase the character index
                 }
-                if (charCount >= text.length())
-                    text("11:30pm", 220, 300);
+                // after the text is printed:
+                if (charCount >= text.length()) 
+                    text("11:30pm", 220, 300); // print a different text
             }
             
-            fill(255);
-            text(displayText, 60, 225);
-            waiter = wait(350); // 350
+            fill(255); // Text colour to white
+            text(displayText, 60, 225); // Display the displayed text.
+            waiter = wait(350); // Storing a boolean from the wait method(Delay method)
+            
+            // Reset variables and change scene.
             if (waiter) {
                 waiter = false;
                 scene = 2;
             }
-
         } 
         
-        // Scene 2
+        // Scene 2: Image of Nian awakening.
         else if (scene == 2) {
-            slide.changeScene(2);
-            slide.draw();
-            fadeinout(80, 5); // 80,5
-            waiter = wait(100); // 100
+            
+            // Slide change, draw, fade-in-out transition.
+            slide.changeScene(2); 
+            slide.draw(); 
+            fadeinout(80, 5); 
+            waiter = wait(100); // delay
+            
+            // Reset variables and change scene.
             if (!fadein && opac >= 255 && waiter) {
                 waiter = false;
                 scene = 3;
@@ -159,141 +155,235 @@ public class Sketching extends PApplet {
                 opac = 255;
                 wait = 0;
             }
-
-        } else if (scene == 3) {
+        }
+        
+        // Scene 3: Reset Slide(Fade-in-out transition).
+        else if (scene == 3) {
+            
+            //Slide change, draw, fade-in-out transition.
             slide.changeScene(3);
             slide.draw();
-            fadeinout(80, 5); // 80,5
-            waiter = wait(100); // 100
-            scene = 4;
-
-        } else if (scene == 4) {
+            fadeinout(80, 5); 
+            waiter = wait(100); 
+            scene = 4; 
+        } 
+        
+        //Scene 4: Objective Slide.
+        else if (scene == 4) {
+            
+            // For loop for each text string in the textString array(3).
             for (int i = 0; i < textString.length; i++) {
-                if (charrayCount[i] < textString[i].length()) {
-                    tarraypeFrameCount[i]++;
+                // if charCount[0,1,2] is less than index length of textString[0,1,2]
+                if (charrayCount[i] < textString[i].length()) { 
+                    tarraypeFrameCount[i]++; // Increase frame counter.
+                    //if frame counter modulus by typeSpeed(5) = 0 -> start printing
                     if (tarraypeFrameCount[i] % typeSpeed == 0) {
+                        // Starting slowly adding each character to displayed variable.
                         displayTexts[i] += textString[i].charAt(charrayCount[i]);
-                        charrayCount[i]++;
+                        charrayCount[i]++; // Increase the character index
                     }
                 }
-                fill(255);
+                
+                fill(255); // Text colour to white
+                // Display the displayed text.
                 if (i == 0) {
-                    text(displayTexts[i], 200, 215 + (40 * i));
+                    text(displayTexts[i], 200, 215 + (40 * i)); // "Objective:"
                 } else {
-                    text(displayTexts[i], 30, 215 + (40 * i));
+                    text(displayTexts[i], 30, 215 + (40 * i)); // "The other texts."
                 }
             }
+            
+            // Delay method and Reset variables and change scene.
             waiter = wait(350); // 350
             if (waiter) {
                 waiter = false;
                 scene = 5;
             }
-
-        } else if (scene == 5) {
-            bg.changeScene(2);
+        } 
+        
+        // Scene 5: Map bottom left
+        else if (scene == 5) {
+            
+            // Background change and draw.
+            bg.changeScene(2); 
             bg.draw();
+            
+            // Reset Distance movement
             dx = 0;
             dy = 0;
+            
+            // Movement for player character
+            // Checks if wasdHold variables are true and adds/minus speed to distance movement.
+            // wasdHold is from processing core methods(Key Released and Pressed)
+            if (wHold) dy -= SPEED; // up
+            else if (sHold) dy += SPEED; // down
+            else if (aHold) dx -= SPEED; // left
+            else if (dHold) dx += SPEED; // right
 
-            if (wHold) dy -= SPEED;
-            else if (sHold) dy += SPEED;
-            else if (aHold) dx -= SPEED;
-            else if (dHold) dx += SPEED;
-
-            box[1].changeBox(420, -6, 40, 10);
+            // Calls move method from the you object.
+            // moves the character
+            you.move(dx, dy);
+            
+            // Calls moveConstraint method from object. 
+            // where the character can't move/ restricted.
+            you.moveConstraint(false);
+            
+            // Draws the character.
+            you.draw();
+            
+            // Debug hitbox for character
+            you.drawHitbox();
+            
+            // Transition box positions and draw.
             box[0].changeBox(595, 270, 15, 50);
             box[0].draw();
+            box[1].changeBox(420, -6, 40, 10);
             box[1].draw();
-
-            you.move(dx, dy);
-            you.moveConstraint(false);
-            you.draw();
-            you.drawHitbox();
-
+            
+            // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
             leftbotToLeftup();
-
-        } else if (scene == 6) {
+        } 
+        
+        // Scene 6: Map bottom right
+        else if (scene == 6) {
+            
+            // Background change and draw.
             bg.changeScene(4);
             bg.draw();
+            
+            // Reset Distance movement
             dx = 0;
             dy = 0;
 
-            box[3].changeBox(130, -5, 50, 10);
-            box[0].changeBox(-10, 270, 15, 50);
-            box[4].changeBox(420, -5, 50, 10);
-
-            box[0].draw();
-            box[3].draw();
-            box[4].draw();
-
+            // Movement for player character
+            // Checks if wasdHold variables are true and adds/minus speed to distance movement.
+            // wasdHold is from processing core methods(Key Released and Pressed)
             if (wHold) dy -= SPEED;
             else if (sHold) dy += SPEED;
             else if (aHold) dx -= SPEED;
             else if (dHold) dx += SPEED;
 
+            // Calls move method from the you object.
+            // moves the character
             you.move(dx, dy);
+            
+            // Calls moveConstraint method from object. 
+            // where the character can't move/ restricted.
             you.moveConstraint(false);
+            
+            // Draws the character.
             you.draw();
+            
+             // Debug hitbox for character
             you.drawHitbox();
 
+            // Transition box positions and draw.
+            box[0].changeBox(-10, 270, 15, 50);
+            box[0].draw();
+            box[3].changeBox(130, -5, 50, 10);
+            box[3].draw();
+            box[4].changeBox(420, -5, 50, 10);
+            box[4].draw();
+            
+            // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
             rightuptToRightbot();
-
-        } else if (scene == 7) {
+        } 
+        
+        //Scene: Map left up
+        else if (scene == 7) {
+            
+            // Background change and draw.
             bg.changeScene(1);
             bg.draw();
+            
+            // Reset Distance movement
             dx = 0;
             dy = 0;
-
-            box[1].changeBox(420, 494, 40, 10);
-            box[2].changeBox(595, 330, 15, 50);
-
-            box[1].draw();
-            box[2].draw();
 
             if (wHold) dy -= SPEED;
             else if (sHold) dy += SPEED;
             else if (aHold) dx -= SPEED;
             else if (dHold) dx += SPEED;
 
+            // Calls move method from the you object.
+            // moves the character
             you.move(dx, dy);
+            
+            // Calls moveConstraint method from object. 
+            // where the character can't move/ restricted.
             you.moveConstraint(true);
+            
+            // Draws the character.
             you.draw();
+            
+            // Debug hitbox for character
             you.drawHitbox();
 
+            // Transition box positions and draw.
+            box[1].changeBox(420, 494, 40, 10);
+            box[1].draw();
+            box[2].changeBox(595, 330, 15, 50);
+            box[2].draw();
+            
+            // Collision method to check if character is touching the transition boxes
             leftbotToLeftup();
             leftuptToRightup();
 
-        } else if (scene == 8) {
+        } 
+        
+        // Scene 8: Map right up
+        else if (scene == 8) {
+            
+            // Background change and draw.
             bg.changeScene(3);
             bg.draw();
+            
+            // Reset Distance movement 
             dx = 0;
             dy = 0;
-
-            box[3].changeBox(130, 495, 50, 10);
-            box[2].changeBox(-11, 315, 15, 40);
-            box[4].changeBox(420, 495, 50, 10);
-
-            box[2].draw();
-            box[3].draw();
-            box[4].draw();
-
+          
+            // Movement for player character
+            // Checks if wasdHold variables are true and adds/minus speed to distance movement.
+            // wasdHold is from processing core methods(Key Released and Pressed)
             if (wHold) dy -= SPEED;
             else if (sHold) dy += SPEED;
             else if (aHold) dx -= SPEED;
             else if (dHold) dx += SPEED;
 
+            // Calls move method from the you object.
+            // moves the character
             you.move(dx, dy);
+            
+            // Calls moveConstraint method from object. 
+            // where the character can't move/ restricted.
             you.moveConstraint(true);
+            
+            // Draws the character.
             you.draw();
+            
+            // Debug hitbox for character
             you.drawHitbox();
-
+            
+            // Transition box positions and draw.
+            box[2].changeBox(-11, 315, 15, 40);
+            box[2].draw();
+            box[3].changeBox(130, 495, 50, 10);
+            box[3].draw();
+            box[4].changeBox(420, 495, 50, 10);
+            box[4].draw();
+            
+             // Collision method to check if character is touching the transition boxes
             leftuptToRightup();
             rightuptToRightbot();
         }
     }
 
+// --- MAP TRANSITION HELPERS ---
+    /**
+     * 
+     */
     public void rightuptToRightbot() {
         if (you.isCollidingWith(box[3]) && scene == 8) {
             System.out.println("TOUCHED lu to ru");
