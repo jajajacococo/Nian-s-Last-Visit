@@ -1,27 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package nianproject;
+package nianproject; // Declares the package name to organize related classes
 
-/**
- *
- * @author Jacob Zheng
- */
 public class NianProject {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // This line launches the Processing sketch by calling the main method
+        // from the Sketching class (which extends PApplet).
+        // The argument must be the fully qualified name (package + class).
         Sketching.main("nianproject.Sketching");
-     
     }
-    
-    /**
-     * ⬚ 15. Use of file input for retrieving data from a flat-file (database) (DIALOGUE FROM GRAMPS??
-     * ⬚ 16. Use of file output for adding/modifying data to a flat-file (database) USER IDK TAKS COMPLELTE
-     */
-    
 }

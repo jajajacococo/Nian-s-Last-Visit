@@ -31,8 +31,13 @@ public class Transition {
     
      public void draw(){
         app.noFill();
-        app.stroke(255, 255, 0);
+        //app.noStroke();
+        
+        // for debugging
+        app.stroke(255, 255, 0); 
         app.strokeWeight(2);
+        
+        
         app.rect(x, y, width, height);
         
     }

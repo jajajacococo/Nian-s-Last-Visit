@@ -1,40 +1,50 @@
 // Imports and packages
-
+  /**
+     * ⬚ 15. Use of file input for retrieving data from a flat-file (database) (DIALOGUE FROM GRAMPS??
+     * ⬚ 16. Use of file output for adding/modifying data to a flat-file (database) USER IDK TAKS COMPLELTE
+     */
 
 // WRONG BACKGROUND PICTURE FOR RIGHT UP IT SHOUDL BE INVESRED NO?
 // WORK ON THE TRANISTION BOXES ALMOST DONE
 
 
-
+// Imports and packages
 package nianproject;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class Sketching extends PApplet {
-    // Objects
-    private Character you;      // character
-    private Scene slide;        // scene backgrounds etc
-    private Scene bg;
-    private PFont font;         // text font
-    private Transition[] box;
+    // Objects declarations
+    private Character you;      // Player character
+    private Scene slide;        // Scene handler for slide images
+    private Scene bg;           // Background scene object
+    private PFont font;         // Custom pixel font for text rendering
+    private Transition[] box;   // Array to hold transition boxes for scene change
 
-    // Key press and release detectors
+    // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
 
-    // Scene/Stage counter
+    // Variable counter to track current scenes
     private int scene = 5;
 
-    // Character movement variables
-    private int dx = 0, dy = 0;
-    private final int SPEED = 5; //2
+    // Variables for character movement
+    private int dx = 0, dy = 0;          // Movement distance on x and y
+    private final int SPEED = 5;         // Movement speed(2)
 
-    // Fade in and fade out timers and debounces
-    private int opac = 255,  // opacity
-                wait = 0,   // wait counter
-                time = 0;   // time counter
-    private boolean fadein = true,  // to allow fade in or out
-                    waiter = false; // to allow / activate then next scene like a delay
+    // Variables to handle fade-in and fade-out transitions
+    private int opac = 255,  // Opacity for the fade effect
+                wait = 0,   // Counter for wait time
+                time = 0;   // Time delay counter
+    private boolean fadein = true,  // To control fade-in effect
+                    waiter = false; // To control the delay and trigger the next scene
 
+    
+    
+    
+    
+    
+    
+    
     // Typing animation variables
     private String text = "February 3, 1045 BCE,"; // original text
     private String displayText = "";                // displayed text
@@ -43,12 +53,11 @@ public class Sketching extends PApplet {
                 typeFrameCount = 0;                 // frame counter
 
     // Multiple typing animations
-    private String[] textString = {
+    private String[] textString = { // original texts
         "Objective:",
         "Gather all supplies to",
         "escape before midnight."
-    }; // original texts
-    private boolean[] debounceLine = new boolean[3];
+    }; 
     private int[] charrayCount = {0, 0, 0};       // character index of the texts
     private int[] tarraypeFrameCount = {0, 0, 0}; // frame counters
     private String[] displayTexts = {"", "", ""}; // displayed texts
@@ -62,53 +71,71 @@ public class Sketching extends PApplet {
     }
 
     /**
-     * Initializes game components like the player character and background scene.
+     * Initializes game components such as the player, background, and other objects.
      * Also loads the custom pixel font for rendering text.
      */
     @Override
     public void setup() {
-        you = new Character(this, 270, 50);
-        slide = new Scene(this);
-        background(255);
-        font = createFont("Pixel.otf", 32);
-        textFont(font);
-        bg = new background(this);
-        box = new Transition[5];
+        background(255); // Setting background to white
+        
+        // Instaniating the Objects
+        you = new Character(this, 270, 50); // The player character
+        slide = new Scene(this); // the slideshow images
+        bg = new background(this); // the background images
+        box = new Transition[5]; // Declaring the size of the box object array
+        
+        // Instaniating the transition boxes for scene change.
         box[0] = new Transition(this, 595, 270, 15, 50);
         box[1] = new Transition(this, 420, -6, 40, 10);
         box[2] = new Transition(this, 595, 330, 15, 50);
         box[3] = new Transition(this, 130, 495, 50, 10);
         box[4] = new Transition(this, 420, 495, 50, 10);
+        
+        // Pixel Font for tpying animations.
+        font = createFont("Pixel.otf", 32); // pixel font adn size 32
+        textFont(font); // initializing the text font.
     }
 
     /**
      * The main draw loop for the game. (Called continuously)
      * Handles scenes, activating fade transitions, typing animations, character movement.
+     * Everything basically.
      */
     @Override
     public void draw() {
+        
+        // Scene 0
         if (scene == 0) {
-            background(255);
-            slide.changeScene(1);
-            slide.draw();
-            fadeinout(200, 2); // 200,2
-            if (!fadein && opac >= 255) {
-                scene = 1;
-                fadein = true;
-                opac = 255;
-                wait = 0;
-            }
-
-        } else if (scene == 1) {
-            if (charCount < text.length()) {
-                typeFrameCount++;
-                if (typeFrameCount % typeSpeed == 0) {
-                    displayText += text.charAt(charCount);
-                    charCount++;
+            background(255);// Setting background to white
+            
+            slide.changeScene(1); // Changing the slide object to slide 1
+            slide.draw(); // drawing the slide
+            fadeinout(200, 2); // calling the fade transition method
+            
+            if (!fadein && opac >= 255) { // if fadein is false and opacity variable is 255 or larger
+                scene = 1; // change to the next scene
+                fadein = true; // reset fadein
+                opac = 255; // reset opacity
+                wait = 0; // reset wait time
+            } 
+        }
+        
+        // Scene 1
+        else if (scene == 1) {
+            
+            // One by one text displaying
+            if (charCount < text.length()) { // checks if charCount is under the text length
+                typeFrameCount++; // increase framcount by 1
+                
+                // if framecount is divisble by 5... (for typing speed or how long to type one thing)
+                if (typeFrameCount % typeSpeed == 0) { 
+                    displayText += text.charAt(charCount); // change the displaytext which 
+                    charCount++; 
                 }
                 if (charCount >= text.length())
                     text("11:30pm", 220, 300);
             }
+            
             fill(255);
             text(displayText, 60, 225);
             waiter = wait(350); // 350
@@ -117,7 +144,10 @@ public class Sketching extends PApplet {
                 scene = 2;
             }
 
-        } else if (scene == 2) {
+        } 
+        
+        // Scene 2
+        else if (scene == 2) {
             slide.changeScene(2);
             slide.draw();
             fadeinout(80, 5); // 80,5
@@ -176,7 +206,7 @@ public class Sketching extends PApplet {
             box[1].draw();
 
             you.move(dx, dy);
-            you.moveConstraint(dx, dy, false);
+            you.moveConstraint(false);
             you.draw();
             you.drawHitbox();
 
@@ -189,9 +219,9 @@ public class Sketching extends PApplet {
             dx = 0;
             dy = 0;
 
-            box[3].changeBox(130, 0, 50, 10);
+            box[3].changeBox(130, -5, 50, 10);
             box[0].changeBox(-10, 270, 15, 50);
-            box[4].changeBox(420, 0, 50, 10);
+            box[4].changeBox(420, -5, 50, 10);
 
             box[0].draw();
             box[3].draw();
@@ -203,7 +233,7 @@ public class Sketching extends PApplet {
             else if (dHold) dx += SPEED;
 
             you.move(dx, dy);
-            you.moveConstraint(dx, dy, false);
+            you.moveConstraint(false);
             you.draw();
             you.drawHitbox();
 
@@ -228,7 +258,7 @@ public class Sketching extends PApplet {
             else if (dHold) dx += SPEED;
 
             you.move(dx, dy);
-            you.moveConstraint(dx, dy, true);
+            you.moveConstraint(true);
             you.draw();
             you.drawHitbox();
 
@@ -255,7 +285,7 @@ public class Sketching extends PApplet {
             else if (dHold) dx += SPEED;
 
             you.move(dx, dy);
-            you.moveConstraint(dx, dy, true);
+            you.moveConstraint(true);
             you.draw();
             you.drawHitbox();
 
@@ -268,25 +298,21 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[3]) && scene == 8) {
             System.out.println("TOUCHED lu to ru");
             scene = 6;
-            box[3].changeBox(130, 0, 15, 40);
-            you.setPos(-4, 305);
+            you.setPos(130, 10);
         } else if (you.isCollidingWith(box[3]) && scene == 6) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
-            box[3].changeBox(130, 0, 15, 40);
-            you.setPos(-4, 305);
+            you.setPos(130, 437);
         }
 
         if (you.isCollidingWith(box[4]) && scene == 8) {
             System.out.println("TOUCHED lu to ru");
             scene = 6;
-            box[4].changeBox(420, 495, 50, 10);
-            you.setPos(-4, 305);
+            you.setPos(420,10);
         } else if (you.isCollidingWith(box[4]) && scene == 6) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
-            box[4].changeBox(420, 0, 50, 10);
-            you.setPos(-4, 305);
+            you.setPos(420, 437);
         }
     }
 
@@ -294,12 +320,12 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[2]) && scene == 7) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
-            box[2].changeBox(-11, 315, 15, 40);
+      
             you.setPos(-4, 305);
         } else if (you.isCollidingWith(box[2]) && scene == 8) {
             System.out.println("TOUCHED ru to lu");
             scene = 7;
-            box[2].changeBox(595, 330, 15, 50);
+    
             you.setPos(550, 320);
         }
     }
@@ -308,12 +334,12 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[0]) && scene == 5) {
             System.out.println("TOUCHED lb to rb");
             scene = 6;
-            box[0].changeBox(-10, 270, 15, 50);
+     
             you.setPos(-5, 265);
         } else if (you.isCollidingWith(box[0]) && scene == 6) {
             System.out.println("TOUCHED rb to lb");
             scene = 5;
-            box[0].changeBox(595, 270, 15, 50);
+ 
             you.setPos(547, 265);
         }
     }
@@ -322,12 +348,12 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[1]) && scene == 5) {
             System.out.println("TOUCHED lb to lu");
             scene = 7;
-            box[1].changeBox(420, 494, 40, 10);
+
             you.setPos(410, 430);
         } else if (you.isCollidingWith(box[1]) && scene == 7) {
             System.out.println("TOUCHED lu to lb");
             scene = 5;
-            box[1].changeBox(420, -6, 40, 10);
+
             you.setPos(410, 5);
         }
     }

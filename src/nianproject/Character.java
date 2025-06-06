@@ -41,7 +41,7 @@ public class Character {
         tickside=0;
     }
     
-    public void moveConstraint(int dx, int dy, boolean top){
+    public void moveConstraint(boolean top){
         if (!top){
             x = PApplet.constrain(x, -35, app.width-35);
             y = PApplet.constrain(y, -20, app.height - 160);
