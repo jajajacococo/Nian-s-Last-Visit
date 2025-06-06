@@ -41,10 +41,17 @@ public class Character {
         tickside=0;
     }
     
-    public void moveConstraint(int dx, int dy){
-        x = PApplet.constrain(x, -35, app.width-35);
-        y = PApplet.constrain(y, -20, app.height - 160);
+    public void moveConstraint(int dx, int dy, boolean top){
+        if (!top){
+            x = PApplet.constrain(x, -35, app.width-35);
+            y = PApplet.constrain(y, -20, app.height - 160);
+        } else {
+            x = PApplet.constrain(x, -35, app.width-35);
+            y = PApplet.constrain(y, 180, app.height - 35);
+        }
     }
+    
+ 
     public void move(int dx, int dy){
         x += dx;
         y += dy; 
