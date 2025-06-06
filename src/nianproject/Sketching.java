@@ -7,17 +7,19 @@ public class Sketching extends PApplet {
     // Objects
     private Character you; // character
     private Scene slide; // scene backgrounds etc
+    private Scene bg;
     private PFont font; // text font
+    private Transition[] box;
     
     // Key press and releasee detectors
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
     
     // Scene/Stage counter.
-    private int scene = 0;
+    private int scene = 5;
     
     // Character movement variables
     private int dx = 0, dy = 0;
-    private final int SPEED = 1;
+    private final int SPEED = 3;//2
     
     // Fade in and fade out timers and debounces
     private int opac = 255, // opacity
@@ -54,11 +56,15 @@ public class Sketching extends PApplet {
      */
     @Override
     public void setup() {
-        you = new Character(this, 268, 202);
+        you = new Character(this, 270, 50);
         slide = new Scene(this);
         background(255);
         font = createFont("Pixel.otf", 32);
         textFont(font);
+        bg = new background(this);
+        box = new Transition[5];
+        box[0] = new Transition(this, 595,270,15,50);
+        box[1] = new Transition(this, 420,-6,40,10);
     }
 
     /**
@@ -72,7 +78,7 @@ public class Sketching extends PApplet {
             background(255);
             slide.changeScene(1);
             slide.draw();
-            fadeinout(200, 2);
+            fadeinout(1, 10); //200,2
             if (!fadein && opac >= 255) {
                 scene = 1;
                 fadein = true;
@@ -91,7 +97,7 @@ public class Sketching extends PApplet {
             }
             fill(255);
             text(displayText, 60, 225);
-            waiter = wait(350);
+            waiter = wait(1); //350
             if (waiter) {
                 waiter = false;
                 scene = 2;
@@ -99,8 +105,8 @@ public class Sketching extends PApplet {
         } else if (scene == 2) {
             slide.changeScene(2);
             slide.draw();
-            fadeinout(80, 5);
-            waiter = wait(100);
+            fadeinout(1, 5); //80,5
+            waiter = wait(1); //100
             if (!fadein && opac >= 255 && waiter) {
                 waiter = false;
                 scene = 3;
@@ -112,8 +118,8 @@ public class Sketching extends PApplet {
         } else if (scene == 3){
             slide.changeScene(3);
             slide.draw();
-            fadeinout(80, 5);
-            waiter = wait(100);
+            fadeinout(1, 5); //80,5
+            waiter = wait(1); //100
             scene =4;
 
         } else if (scene == 4){
@@ -132,7 +138,7 @@ public class Sketching extends PApplet {
             
             }
                 
-                waiter = wait(350);
+                waiter = wait(1); //350
                 if (waiter) {
                     waiter = false;
                     scene = 5;
@@ -142,7 +148,8 @@ public class Sketching extends PApplet {
         
         
         else if (scene == 5) {
-            background(255);
+            bg.changeScene(2);
+            bg.draw();
             dx = 0;
             dy = 0;
 
@@ -150,12 +157,75 @@ public class Sketching extends PApplet {
             else if (sHold) dy += SPEED;
             else if (aHold) dx -= SPEED;
             else if (dHold) dx += SPEED;
-
+            
+            box[0].draw();
+            box[1].draw();
             you.move(dx, dy);
             you.draw();
+            you.drawHitbox();
+            leftbotToRightbot();
+            leftbotToLeftup();
+        }        else if (scene == 6) {
+            bg.changeScene(4);
+            bg.draw();
+            dx = 0;
+            dy = 0;
+            box[0].draw();
+            if (wHold) dy -= SPEED;
+            else if (sHold) dy += SPEED;
+            else if (aHold) dx -= SPEED;
+            else if (dHold) dx += SPEED;
+            
+            you.move(dx, dy);
+            you.moveConstraint(dx, dy);
+            you.draw();
+            you.drawHitbox();
+            leftbotToRightbot();
+        }          else if (scene == 7) {
+            bg.changeScene(1);
+            bg.draw();
+            dx = 0;
+            dy = 0;
+            box[1].draw();
+            if (wHold) dy -= SPEED;
+            else if (sHold) dy += SPEED;
+            else if (aHold) dx -= SPEED;
+            else if (dHold) dx += SPEED;
+            
+            you.move(dx, dy);
+            you.draw();
+            you.drawHitbox();
+            leftbotToLeftup();
         }
     }
-
+    public void leftbotToRightbot() {
+        if (you.isCollidingWith(box[0]) && scene == 5) {
+            System.out.println("TOUCHED lb to rb");
+            scene = 6;
+            box[0].changeBox(-10,270,15,50);
+            you.setPos(-5,265);
+        } else if (you.isCollidingWith(box[0]) && scene == 6){
+            System.out.println("TOUCHED rb to lb");
+            scene = 5;
+            box[0].changeBox(595,270,15,50);
+            you.setPos(547,265);
+        }
+  }
+       public void leftbotToLeftup() {
+        if (you.isCollidingWith(box[1]) && scene == 5) {
+            System.out.println("TOUCHED lb to lu");
+            scene = 7;
+            box[1].changeBox(420,490,40,10);
+            you.setPos(410,430);
+        } else if (you.isCollidingWith(box[1]) && scene == 7){
+            System.out.println("TOUCHED lu to lb");
+            scene = 5;
+            box[1].changeBox(420,-6,40,10);
+            you.setPos(410,5);
+        }
+  }
+    
+    
     public void fadeinout(int waitTime, int add) {
         if (fadein) {
             if (opac > 0) opac -= add;

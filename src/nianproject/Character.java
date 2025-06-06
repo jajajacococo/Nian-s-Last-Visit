@@ -8,20 +8,26 @@ public class Character {
     private PApplet app;
     private String direction;
     private String lastdirection = "down";
-    
+    private int width, height;
+    private int offsetx=15, offsety =5 ;
     
     private PImage didle,widle,ridle,lidle;
     private PImage current;
     private PImage[] downwalk, upwalk,rwalk,lwalk;
     private int frame, frameside;
     private int tick, tickside;
-    
+    public void drawHitbox() {
+    app.noFill();
+    app.stroke(0, 255, 0); // Green outline
+    app.rect(x+offsetx, y+offsety, width, height);
+}
     public Character(PApplet app, int x,int y){
         this.app = app;
         this.x = x;
         this.y = y;
-        
         didle = app.loadImage("imgs/yDidle.png");
+        this.width=32;
+        this.height=52; 
         downwalk = new PImage[] {app.loadImage("imgs/ydown.png"),app.loadImage("imgs/ydown2.png")};
         widle = app.loadImage("imgs/ywidle.png");
         upwalk = new PImage[] {app.loadImage("imgs/yup.png"),app.loadImage("imgs/yup2.png")};
@@ -35,10 +41,13 @@ public class Character {
         tickside=0;
     }
     
+    public void moveConstraint(int dx, int dy){
+        x = PApplet.constrain(x, -35, app.width-35);
+        y = PApplet.constrain(y, -20, app.height - 160);
+    }
     public void move(int dx, int dy){
         x += dx;
         y += dy; 
-        
         if (dy<0){ 
             direction="up";
             lastdirection = direction;
@@ -62,7 +71,11 @@ public class Character {
         }
      
     }
-    
+    public void setPos(int x, int y){
+        this.x=x;
+        this.y=y;
+
+    }
     
     public void draw(){
   
@@ -114,5 +127,12 @@ public class Character {
         }
         app.image(current,x,y,64,64);
     }
-    
+    public boolean isCollidingWith(Transition other) {
+        boolean isLeftOfOtherRight = (x+offsetx) < other.x + other.width;
+        boolean isRightOfOtherLeft = (x+offsetx) + width > other.x;
+        boolean isAboveOtherBottom = (y+offsety) < other.y + other.height;
+        boolean isBelowOtherTop = (y+offsety) + height > other.y;
+        return isLeftOfOtherRight && isRightOfOtherLeft 
+          && isAboveOtherBottom && isBelowOtherTop;
+      } 
 }
