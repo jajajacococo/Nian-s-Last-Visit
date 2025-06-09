@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Character {
-    private int x,y;
+    protected int x,y, oldx,oldy;
     private PApplet app;
     private String direction;
     private String lastdirection = "down";
@@ -135,6 +135,15 @@ public class Character {
         app.image(current,x,y,64,64);
     }
     public boolean isCollidingWith(Transition other) {
+        boolean isLeftOfOtherRight = (x+offsetx) < other.x + other.width;
+        boolean isRightOfOtherLeft = (x+offsetx) + width > other.x;
+        boolean isAboveOtherBottom = (y+offsety) < other.y + other.height;
+        boolean isBelowOtherTop = (y+offsety) + height > other.y;
+        return isLeftOfOtherRight && isRightOfOtherLeft 
+          && isAboveOtherBottom && isBelowOtherTop;
+      } 
+    
+      public boolean isCollidingWith(Props other) {
         boolean isLeftOfOtherRight = (x+offsetx) < other.x + other.width;
         boolean isRightOfOtherLeft = (x+offsetx) + width > other.x;
         boolean isAboveOtherBottom = (y+offsety) < other.y + other.height;

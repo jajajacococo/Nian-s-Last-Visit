@@ -20,6 +20,7 @@ public class Sketching extends PApplet {
     private Scene bg;           // Background scene object
     private PFont font;         // Custom pixel font for text rendering
     private Transition[] box;   // Array to hold transition boxes for scene change
+    private Buildings[] build; // Array to hold structures.
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
@@ -29,7 +30,7 @@ public class Sketching extends PApplet {
 
     // Variables for character movement
     private int dx = 0, dy = 0;          // Movement distance on x and y
-    private final int SPEED = 5;         // Movement speed(2)
+    private int speed = 5;         // Movement speed(2)
 
     // Variables to handle fade-in and fade-out transitions
     private int opac = 255,  // Opacity for the fade effect
@@ -42,7 +43,7 @@ public class Sketching extends PApplet {
     private String text = "February 3, 1045 BCE,"; // Text to display
     private String displayText = "";                // Currently displayed lines
     private int charCount = 0,                      // Index of text to display
-                typeSpeed = 5,                      // Delay between character display
+                typespeed = 5,                      // Delay between character display
                 typeFrameCount = 0;                 // Frame counter for counting
 
     // Variables for typing animation for mutliple lines
@@ -71,6 +72,7 @@ public class Sketching extends PApplet {
         slide = new Scene(this); // The slideshow images
         bg = new background(this); // The background images
         box = new Transition[5]; // Declaring the size of the box object array
+        build = new Buildings[1];
         
         // Instaniating the transition boxes for scene change.
         box[0] = new Transition(this, 595, 270, 15, 50);
@@ -78,6 +80,14 @@ public class Sketching extends PApplet {
         box[2] = new Transition(this, 595, 330, 15, 50);
         box[3] = new Transition(this, 130, 495, 50, 10);
         box[4] = new Transition(this, 420, 495, 50, 10);
+        
+        // Instaniating the Structures.
+        build[0] = new Buildings(this, 300, 200);
+        //build[1] = new Buildings(this, 0, 0);
+       // build[2] = new Buildings(this, 0, 0);
+        //build[3] = new Buildings(this, 0, 0);
+        //build[4] = new Buildings(this, 0, 0);
+        //build[5] = new Buildings(this, 0, 0);
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -117,8 +127,8 @@ public class Sketching extends PApplet {
             if (charCount < text.length()) { 
                 typeFrameCount++; // Frame counter time increases by 1.
                 
-                // If frame counter modulus by typeSpeed(5) = 0 -> start printing
-                if (typeFrameCount % typeSpeed == 0) { 
+                // If frame counter modulus by typespeed(5) = 0 -> start printing
+                if (typeFrameCount % typespeed == 0) { 
                     displayText += text.charAt(charCount); // Starting slowly adding each character to displayed variable.
                     charCount++; // increase the character index
                 }
@@ -176,8 +186,8 @@ public class Sketching extends PApplet {
                 // if charCount[0,1,2] is less than index length of textString[0,1,2]
                 if (charrayCount[i] < textString[i].length()) { 
                     tarraypeFrameCount[i]++; // Increase frame counter.
-                    //if frame counter modulus by typeSpeed(5) = 0 -> start printing
-                    if (tarraypeFrameCount[i] % typeSpeed == 0) {
+                    //if frame counter modulus by typespeed(5) = 0 -> start printing
+                    if (tarraypeFrameCount[i] % typespeed == 0) {
                         // Starting slowly adding each character to displayed variable.
                         displayTexts[i] += textString[i].charAt(charrayCount[i]);
                         charrayCount[i]++; // Increase the character index
@@ -208,6 +218,8 @@ public class Sketching extends PApplet {
             bg.changeScene(2); 
             bg.draw();
             
+            
+            
             // Reset Distance movement
             dx = 0;
             dy = 0;
@@ -215,13 +227,15 @@ public class Sketching extends PApplet {
             // Movement for player character
             // Checks if wasdHold variables are true and adds/minus speed to distance movement.
             // wasdHold is from processing core methods(Key Released and Pressed)
-            if (wHold) dy -= SPEED; // up
-            else if (sHold) dy += SPEED; // down
-            else if (aHold) dx -= SPEED; // left
-            else if (dHold) dx += SPEED; // right
+            if (wHold) dy -= speed; // up
+            else if (sHold) dy += speed; // down
+            else if (aHold) dx -= speed; // left
+            else if (dHold) dx += speed; // right
 
             // Calls move method from the you object.
             // moves the character
+            you.oldy  = -dy;
+            you.oldx = -dx;
             you.move(dx, dy);
             
             // Calls moveConstraint method from object. 
@@ -239,6 +253,7 @@ public class Sketching extends PApplet {
             box[0].draw();
             box[1].changeBox(420, -6, 40, 10);
             box[1].draw();
+            colBuild();
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
@@ -259,10 +274,10 @@ public class Sketching extends PApplet {
             // Movement for player character
             // Checks if wasdHold variables are true and adds/minus speed to distance movement.
             // wasdHold is from processing core methods(Key Released and Pressed)
-            if (wHold) dy -= SPEED;
-            else if (sHold) dy += SPEED;
-            else if (aHold) dx -= SPEED;
-            else if (dHold) dx += SPEED;
+            if (wHold) dy -= speed;
+            else if (sHold) dy += speed;
+            else if (aHold) dx -= speed;
+            else if (dHold) dx += speed;
 
             // Calls move method from the you object.
             // moves the character
@@ -277,7 +292,7 @@ public class Sketching extends PApplet {
             
              // Debug hitbox for character
             you.drawHitbox();
-
+            build[0].draw();
             // Transition box positions and draw.
             box[0].changeBox(-10, 270, 15, 50);
             box[0].draw();
@@ -302,10 +317,10 @@ public class Sketching extends PApplet {
             dx = 0;
             dy = 0;
 
-            if (wHold) dy -= SPEED;
-            else if (sHold) dy += SPEED;
-            else if (aHold) dx -= SPEED;
-            else if (dHold) dx += SPEED;
+            if (wHold) dy -= speed;
+            else if (sHold) dy += speed;
+            else if (aHold) dx -= speed;
+            else if (dHold) dx += speed;
 
             // Calls move method from the you object.
             // moves the character
@@ -347,10 +362,10 @@ public class Sketching extends PApplet {
             // Movement for player character
             // Checks if wasdHold variables are true and adds/minus speed to distance movement.
             // wasdHold is from processing core methods(Key Released and Pressed)
-            if (wHold) dy -= SPEED;
-            else if (sHold) dy += SPEED;
-            else if (aHold) dx -= SPEED;
-            else if (dHold) dx += SPEED;
+            if (wHold) dy -= speed;
+            else if (sHold) dy += speed;
+            else if (aHold) dx -= speed;
+            else if (dHold) dx += speed;
 
             // Calls move method from the you object.
             // moves the character
@@ -377,6 +392,13 @@ public class Sketching extends PApplet {
              // Collision method to check if character is touching the transition boxes
             leftuptToRightup();
             rightuptToRightbot();
+        }
+    }
+    
+    public void colBuild(){
+        if (you.isCollidingWith(build[0])) {
+                System.out.println("TOUCHED building");
+                you.move(you.oldx, you.oldy);
         }
     }
 

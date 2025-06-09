@@ -13,7 +13,8 @@ public class Props {
     protected int x,y;
     private static int numofprops;
     protected PImage current;
-    protected PApplet app;      
+    protected PApplet app;  
+    protected int width,height;
     
     public Props(PApplet app, int x, int y){
         this.app=app;
@@ -22,10 +23,24 @@ public class Props {
         numofprops++;
        
     }
+    
+    public void changePos(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+    
+    public void changeDimensions(int w, int h){
+        this.width=x;
+        this.height=h;
+    }
   
        
     public void changeProp(int sprite){
         System.out.println("Changed Prop to" + sprite);
+    }
+    
+    public void draw(){
+        app.image(current,x,y);
     }
 }
 
