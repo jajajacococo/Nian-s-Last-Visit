@@ -4,9 +4,9 @@
      * ⬚ 16. Use of file output for adding/modifying data to a flat-file (database) USER IDK TAKS COMPLELTE
      */
 
-// WRONG BACKGROUND PICTURE FOR RIGHT UP IT SHOUDL BE INVESRED NO?
-// WORK ON THE TRANISTION BOXES ALMOST DONE
 
+
+// APPARENTLY THE CLASS BUILDINGS DONT WORK USE A DIFF NAME 
 
 // Imports and packages
 package nianproject;
@@ -20,7 +20,7 @@ public class Sketching extends PApplet {
     private Scene bg;           // Background scene object
     private PFont font;         // Custom pixel font for text rendering
     private Transition[] box;   // Array to hold transition boxes for scene change
-    private Buildings[] build; // Array to hold structures.
+    private Structures[] build; // Array to hold structures.
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
@@ -72,7 +72,7 @@ public class Sketching extends PApplet {
         slide = new Scene(this); // The slideshow images
         bg = new background(this); // The background images
         box = new Transition[5]; // Declaring the size of the box object array
-        build = new Buildings[1];
+        build = new Structures[5];
         
         // Instaniating the transition boxes for scene change.
         box[0] = new Transition(this, 595, 270, 15, 50);
@@ -82,12 +82,13 @@ public class Sketching extends PApplet {
         box[4] = new Transition(this, 420, 495, 50, 10);
         
         // Instaniating the Structures.
-        build[0] = new Buildings(this, 300, 200);
-        //build[1] = new Buildings(this, 0, 0);
-       // build[2] = new Buildings(this, 0, 0);
-        //build[3] = new Buildings(this, 0, 0);
-        //build[4] = new Buildings(this, 0, 0);
-        //build[5] = new Buildings(this, 0, 0);
+        build[0] = new Structures(this, 250, 150);
+        build[1] = new Structures(this, 35, 150);
+        build[2] = new Structures(this, 145, 335);
+        build[2].changeProp(1);
+        //build[3] = new Structures(this, 250, 150);
+        //build[4] = new Structures(this, 250, 150);
+        //build[5] = new Structures(this, 250, 150);
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -253,7 +254,11 @@ public class Sketching extends PApplet {
             box[0].draw();
             box[1].changeBox(420, -6, 40, 10);
             box[1].draw();
-            colBuild();
+            build[0].draw();
+            build[1].draw();
+            build[2].draw();            
+            colBuild(0);
+            colBuild(1);
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
@@ -292,7 +297,7 @@ public class Sketching extends PApplet {
             
              // Debug hitbox for character
             you.drawHitbox();
-            build[0].draw();
+            
             // Transition box positions and draw.
             box[0].changeBox(-10, 270, 15, 50);
             box[0].draw();
@@ -393,12 +398,19 @@ public class Sketching extends PApplet {
             leftuptToRightup();
             rightuptToRightbot();
         }
+        mousePressed();
     }
     
-    public void colBuild(){
-        if (you.isCollidingWith(build[0])) {
+    public void colBuild(int index){
+        if (you.isCollidingWith(build[index])) {
                 System.out.println("TOUCHED building");
                 you.move(you.oldx, you.oldy);
+        }
+    }
+    
+    public void loopBuild(int count){
+        for (int i=0; i<count;i++){
+            colBuild(i);
         }
     }
 
@@ -521,5 +533,10 @@ public class Sketching extends PApplet {
         if (key == 's') sHold = false;
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
+    }
+    
+    public void mousePressed(){
+        fill(255);
+        text(mouseX + "," + mouseY,0,30);
     }
 }
