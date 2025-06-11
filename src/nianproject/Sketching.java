@@ -96,7 +96,11 @@ public class Sketching extends PApplet {
         build[5].changeProp(5);
 
 
-
+        villagers[0] = new Villager(this,350,250,"oldman");
+        villagers[1] = new Villager(this,250,250,"mob","v1");
+        villagers[1].changeProp(1);
+        villagers[2] = new Villager(this,150,250);
+        villagers[2].changeProp(2);
         
         
         // Load pixel Font for tpying animations.
@@ -228,8 +232,7 @@ public class Sketching extends PApplet {
             bg.changeScene(2); 
             bg.draw();
             
-            villagers[0] = new Villager(this,350,350,"oldman");
-            villagers[0].draw();
+
             
             // Reset Distance movement
             dx = 0;
@@ -278,6 +281,15 @@ public class Sketching extends PApplet {
             colBuild(3);
             colBuild(4);
             colBuild(5);
+            villagers[0].draw();
+            villagers[1].draw();
+            villagers[2].draw();
+             villagers[0].drawHitbox();
+             villagers[1].drawHitbox();villagers[2].drawHitbox();
+             
+            colVil(0);
+            colVil(1);
+            colVil(2);
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
@@ -486,9 +498,24 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(build[index])) {
                 System.out.println("TOUCHED building");
                 you.move(you.oldx, you.oldy);
+                if (you.lastdirection.equals("down")) {
+                    you.lastdirection = "up";
+                }
+                if (you.lastdirection.equals("up")) {
+                    you.lastdirection = "down";
+                }
+                if (you.lastdirection.equals("right")) {
+                    you.lastdirection = "left";
+                }
         }
     }
     
+        public void colVil(int index){
+        if (you.isCollidingWith(villagers[index])) {
+                System.out.println("TOUCHED villager");
+                you.move(you.oldx, you.oldy);
+        }
+    }
     public void loopBuild(int count){
         for (int i=0; i<count;i++){
             colBuild(i);

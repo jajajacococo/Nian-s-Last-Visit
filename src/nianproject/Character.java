@@ -7,7 +7,7 @@ public class Character {
     protected int x,y, oldx,oldy;
     private PApplet app;
     private String direction;
-    private String lastdirection = "down";
+    protected String lastdirection = "down";
     private int width, height;
     private int offsetx=15, offsety =5 ;
     
@@ -40,6 +40,7 @@ public class Character {
         tick = 0;
         tickside=0;
     }
+    
     
     public void moveConstraint(boolean top){
         if (!top){

@@ -12,6 +12,7 @@ public class Structures extends Props {
         width= 125;
         height=81;
 }
+
         
    
     @Override
