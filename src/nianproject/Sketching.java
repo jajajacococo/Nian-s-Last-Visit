@@ -21,6 +21,7 @@ public class Sketching extends PApplet {
     private PFont font;         // Custom pixel font for text rendering
     private Transition[] box;   // Array to hold transition boxes for scene change
     private Structures[] build; // Array to hold structures.
+    private Villager[] villagers;
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
@@ -72,7 +73,10 @@ public class Sketching extends PApplet {
         slide = new Scene(this); // The slideshow images
         bg = new background(this); // The background images
         box = new Transition[5]; // Declaring the size of the box object array
-        build = new Structures[20];
+        build = new Structures[6];
+        villagers = new Villager[3];
+        
+        
         
         // Instaniating the transition boxes for scene change.
         box[0] = new Transition(this, 595, 270, 15, 50);
@@ -82,10 +86,6 @@ public class Sketching extends PApplet {
         box[4] = new Transition(this, 420, 495, 50, 10);
         
         // Instaniating the Structures. 
-        //(too laggy if you put it in draw so you can use 5 imgs and switch positions)
-        // also too lazy to solve, this is much easier makign 20 objects
-        
-        //scene 5 bottom left
         build[0] = new Structures(this, 250, 150);
         build[1] = new Structures(this, 35, 150);
         build[2] = new Structures(this, 145, 335);
@@ -94,15 +94,9 @@ public class Sketching extends PApplet {
         build[4] = new Structures(this, 30, 35);
         build[5] = new Structures(this, 540, 50);
         build[5].changeProp(5);
-        
-        //scene 7 upper left
-        build[6] = new Structures(this, 250, 460); 
-        build[7] = new Structures(this, 77, 380);
-        build[7].changeProp(4);
-        //build[5] = new Structures(this, 540, 50);
-        //build[5] = new Structures(this, 540, 50);
-        //build[5] = new Structures(this, 540, 50);
-        
+
+
+
         
         
         // Load pixel Font for tpying animations.
@@ -234,7 +228,8 @@ public class Sketching extends PApplet {
             bg.changeScene(2); 
             bg.draw();
             
-            
+            villagers[0] = new Villager(this,350,350,"oldman");
+            villagers[0].draw();
             
             // Reset Distance movement
             dx = 0;
@@ -269,6 +264,8 @@ public class Sketching extends PApplet {
             box[0].draw();
             box[1].changeBox(420, -6, 40, 10);
             box[1].draw();
+
+
             build[0].draw();
             build[1].draw();
             build[2].draw();  
@@ -326,7 +323,18 @@ public class Sketching extends PApplet {
             
              // Debug hitbox for character
             you.drawHitbox();
-            
+                            build[0].draw();
+            build[1].draw();
+            build[2].draw();  
+            build[3].draw(); 
+            build[4].draw(); 
+            build[5].draw(); 
+                    colBuild(0);
+            colBuild(1);
+            colBuild(2);
+            colBuild(3);
+            colBuild(4);
+            colBuild(5);
 
             
             // Transition box positions and draw.
@@ -384,19 +392,20 @@ public class Sketching extends PApplet {
             
             // Debug hitbox for character
             you.drawHitbox();
+ 
 
-            build[6].draw();
-            build[7].draw();
-            //build[8].draw();  
-            //build[9].draw(); 
-            //build[10].draw(); 
-            //build[11].draw(); 
-            colBuild(6);
-            colBuild(7);
-           // colBuild(8);
-            //colBuild(9);
-            //colBuild(10);
-           // colBuild(11);
+                    build[0].draw();
+            build[1].draw();
+            build[2].draw();  
+            build[3].draw(); 
+            build[4].draw(); 
+                    colBuild(0);
+            colBuild(1);
+            colBuild(2);
+            colBuild(3);
+            colBuild(4);
+
+          
             // Transition box positions and draw.
             box[1].changeBox(420, 494, 40, 10);
             box[1].draw();
@@ -443,7 +452,21 @@ public class Sketching extends PApplet {
             
             // Debug hitbox for character
             you.drawHitbox();
+  
+
             
+            build[0].draw();
+            build[1].draw();
+            build[2].draw();  
+            build[3].draw(); 
+
+
+            colBuild(0);
+            colBuild(1);
+            colBuild(2);
+            colBuild(3);
+
+
             // Transition box positions and draw.
             box[2].changeBox(-11, 315, 15, 40);
             box[2].draw();
@@ -480,20 +503,60 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[3]) && scene == 8) {
             System.out.println("TOUCHED lu to ru");
             scene = 6;
+            build[0].changePos(230, 150);
+            build[0].changeProp(0);
+            build[1].changePos(370, 160);
+            build[1].changeProp(0);
+            build[2].changePos(510, 155);
+            build[2].changeProp(0);
+            build[3].changePos(256, -40);
+            build[3].changeProp(0);
+            build[4].changePos(500, 301);
+            build[4].changeProp(1);
+            build[5].changePos(542,45);
+            build[5].changeProp(5);
             you.setPos(130, 10);
         } else if (you.isCollidingWith(box[3]) && scene == 6) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
+            build[0].changePos(30, 190);
+            build[0].changeProp(3);
+            build[1].changePos(240, 160);
+            build[1].changeProp(6);
+            build[2].changePos(256, 460);
+            build[2].changeProp(0);
+            build[3].changePos(280, 390);
+            build[3].changeProp(5);
             you.setPos(130, 437);
         }
 
         if (you.isCollidingWith(box[4]) && scene == 8) {
             System.out.println("TOUCHED lu to ru");
             scene = 6;
+            build[0].changePos(230, 150);
+            build[0].changeProp(0);
+            build[1].changePos(370, 160);
+            build[1].changeProp(0);
+            build[2].changePos(510, 155);
+            build[2].changeProp(0);
+            build[3].changePos(256, -40);
+            build[3].changeProp(0);
+            build[4].changePos(500, 301);
+            build[4].changeProp(1);
+            build[5].changePos(542,45);
+            build[5].changeProp(5);
             you.setPos(420,10);
         } else if (you.isCollidingWith(box[4]) && scene == 6) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
+                      build[0].changePos(30, 190);
+            build[0].changeProp(3);
+            build[1].changePos(240, 160);
+            build[1].changeProp(6);
+            build[2].changePos(256, 460);
+            build[2].changeProp(0);
+            build[3].changePos(280, 390);
+            build[3].changeProp(5);
             you.setPos(420, 437);
         }
     }
@@ -502,12 +565,27 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[2]) && scene == 7) {
             System.out.println("TOUCHED lu to ru");
             scene = 8;
-      
+                build[0].changePos(30, 190);
+            build[0].changeProp(3);
+            build[1].changePos(240, 160);
+            build[1].changeProp(6);
+            build[2].changePos(256, 460);
+            build[2].changeProp(0);
+            build[3].changePos(280, 390);
+            build[3].changeProp(5);
             you.setPos(-4, 305);
         } else if (you.isCollidingWith(box[2]) && scene == 8) {
             System.out.println("TOUCHED ru to lu");
             scene = 7;
-    
+    build[0].changePos(250, 460);
+build[1].changePos(77, 380);
+build[1].changeProp(4);
+build[2].changePos(260, 250);
+build[2].changeProp(2);
+build[3].changePos(360, 250);
+build[3].changeProp(2);
+build[4].changePos(460, 250);
+build[4].changeProp(2);
             you.setPos(550, 320);
         }
     }
@@ -516,12 +594,34 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[0]) && scene == 5) {
             System.out.println("TOUCHED lb to rb");
             scene = 6;
-     
+            build[0].changePos(230, 150);
+            build[0].changeProp(0);
+            build[1].changePos(370, 160);
+            build[1].changeProp(0);
+            build[2].changePos(510, 155);
+            build[2].changeProp(0);
+            build[3].changePos(256, -40);
+            build[3].changeProp(0);
+            build[4].changePos(500, 301);
+            build[4].changeProp(1);
+            build[5].changePos(542,45);
+            build[5].changeProp(5);
             you.setPos(-5, 265);
         } else if (you.isCollidingWith(box[0]) && scene == 6) {
             System.out.println("TOUCHED rb to lb");
             scene = 5;
- 
+            build[0].changePos(250, 150);
+            build[0].changeProp(0);
+            build[1].changePos(35, 150);
+            build[1].changeProp(0);
+            build[2].changePos(145, 335);
+            build[2].changeProp(1);
+            build[3].changePos(250, -40);
+            build[3].changeProp(0);
+            build[4].changePos(30, 35);
+            build[4].changeProp(0);
+            build[5].changePos(540, 50);
+            build[5].changeProp(5);
             you.setPos(547, 265);
         }
     }
@@ -530,12 +630,31 @@ public class Sketching extends PApplet {
         if (you.isCollidingWith(box[1]) && scene == 5) {
             System.out.println("TOUCHED lb to lu");
             scene = 7;
-
+build[0].changePos(250, 460);
+build[1].changePos(77, 380);
+build[1].changeProp(4);
+build[2].changePos(260, 250);
+build[2].changeProp(2);
+build[3].changePos(360, 250);
+build[3].changeProp(2);
+build[4].changePos(460, 250);
+build[4].changeProp(2);
             you.setPos(410, 430);
         } else if (you.isCollidingWith(box[1]) && scene == 7) {
             System.out.println("TOUCHED lu to lb");
             scene = 5;
-
+            build[0].changePos(250, 150);
+            build[0].changeProp(0);
+            build[1].changePos(35, 150);
+            build[1].changeProp(0);
+            build[2].changePos(145, 335);
+            build[2].changeProp(1);
+            build[3].changePos(250, -40);
+            build[3].changeProp(0);
+            build[4].changePos(30, 35);
+            build[4].changeProp(0);
+            build[5].changePos(540, 50);
+            build[5].changeProp(5);
             you.setPos(410, 5);
         }
     }
