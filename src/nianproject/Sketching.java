@@ -72,7 +72,7 @@ public class Sketching extends PApplet {
         slide = new Scene(this); // The slideshow images
         bg = new background(this); // The background images
         box = new Transition[5]; // Declaring the size of the box object array
-        build = new Structures[5];
+        build = new Structures[20];
         
         // Instaniating the transition boxes for scene change.
         box[0] = new Transition(this, 595, 270, 15, 50);
@@ -81,14 +81,29 @@ public class Sketching extends PApplet {
         box[3] = new Transition(this, 130, 495, 50, 10);
         box[4] = new Transition(this, 420, 495, 50, 10);
         
-        // Instaniating the Structures.
+        // Instaniating the Structures. 
+        //(too laggy if you put it in draw so you can use 5 imgs and switch positions)
+        // also too lazy to solve, this is much easier makign 20 objects
+        
+        //scene 5 bottom left
         build[0] = new Structures(this, 250, 150);
         build[1] = new Structures(this, 35, 150);
         build[2] = new Structures(this, 145, 335);
         build[2].changeProp(1);
-        //build[3] = new Structures(this, 250, 150);
-        //build[4] = new Structures(this, 250, 150);
-        //build[5] = new Structures(this, 250, 150);
+        build[3] = new Structures(this, 250, -40);
+        build[4] = new Structures(this, 30, 35);
+        build[5] = new Structures(this, 540, 50);
+        build[5].changeProp(5);
+        
+        //scene 7 upper left
+        build[6] = new Structures(this, 250, 460); 
+        build[7] = new Structures(this, 77, 380);
+        build[7].changeProp(4);
+        //build[5] = new Structures(this, 540, 50);
+        //build[5] = new Structures(this, 540, 50);
+        //build[5] = new Structures(this, 540, 50);
+        
+        
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -256,14 +271,25 @@ public class Sketching extends PApplet {
             box[1].draw();
             build[0].draw();
             build[1].draw();
-            build[2].draw();            
+            build[2].draw();  
+            build[3].draw(); 
+            build[4].draw(); 
+            build[5].draw(); 
             colBuild(0);
             colBuild(1);
+            colBuild(2);
+            colBuild(3);
+            colBuild(4);
+            colBuild(5);
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
             leftbotToLeftup();
         } 
+        
+        
+  
+   
         
         // Scene 6: Map bottom right
         else if (scene == 6) {
@@ -286,7 +312,10 @@ public class Sketching extends PApplet {
 
             // Calls move method from the you object.
             // moves the character
+            you.oldy  = -dy;
+            you.oldx = -dx;
             you.move(dx, dy);
+
             
             // Calls moveConstraint method from object. 
             // where the character can't move/ restricted.
@@ -297,6 +326,8 @@ public class Sketching extends PApplet {
             
              // Debug hitbox for character
             you.drawHitbox();
+            
+
             
             // Transition box positions and draw.
             box[0].changeBox(-10, 270, 15, 50);
@@ -311,9 +342,20 @@ public class Sketching extends PApplet {
             rightuptToRightbot();
         } 
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         //Scene: Map left up
         else if (scene == 7) {
-            
+
             // Background change and draw.
             bg.changeScene(1);
             bg.draw();
@@ -329,6 +371,8 @@ public class Sketching extends PApplet {
 
             // Calls move method from the you object.
             // moves the character
+                        you.oldy  = -dy;
+            you.oldx = -dx;
             you.move(dx, dy);
             
             // Calls moveConstraint method from object. 
@@ -341,6 +385,18 @@ public class Sketching extends PApplet {
             // Debug hitbox for character
             you.drawHitbox();
 
+            build[6].draw();
+            build[7].draw();
+            //build[8].draw();  
+            //build[9].draw(); 
+            //build[10].draw(); 
+            //build[11].draw(); 
+            colBuild(6);
+            colBuild(7);
+           // colBuild(8);
+            //colBuild(9);
+            //colBuild(10);
+           // colBuild(11);
             // Transition box positions and draw.
             box[1].changeBox(420, 494, 40, 10);
             box[1].draw();
@@ -374,6 +430,8 @@ public class Sketching extends PApplet {
 
             // Calls move method from the you object.
             // moves the character
+                        you.oldy  = -dy;
+            you.oldx = -dx;
             you.move(dx, dy);
             
             // Calls moveConstraint method from object. 

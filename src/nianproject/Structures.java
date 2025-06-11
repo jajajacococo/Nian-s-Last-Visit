@@ -26,11 +26,11 @@ public class Structures extends Props {
                 break;
             case 1:
                 current = app.loadImage("imgs/shed.png");
-                System.out.print("hcanged");
+                System.out.print("Buiilding Set as Shed");
                 offx = 15;
                 offy = 30;
-                width= 125;
-                height=81;
+                width= 85;
+                height=75;
                 break;
             case 2:
                 current = app.loadImage("imgs/marketstand.png");
@@ -39,10 +39,19 @@ public class Structures extends Props {
                 current = app.loadImage("imgs/forge.png");
                 break;
             case 4:
-                current = app.loadImage("imgs/church.png");
+                current = app.loadImage("imgs/church2.png");
+                offx = 25;
+                offy = 50;
+                width= 95;
+                height=51;
                 break;
             case 5:
-                current = app.loadImage("imgs/waterwell.png");
+                current = app.loadImage("imgs/waterwell3.png");
+                System.out.print("Buiilding Set as waterwell");
+                offx = 30;
+                offy = 60;
+                width= 40;
+                height=25;
                 break;
             
         }
@@ -51,5 +60,4 @@ public class Structures extends Props {
         @Override
         public void draw(){
             app.image(current,x-offx,y-offy);
-        }
-}
+        }}
