@@ -22,9 +22,11 @@ public class Sketching extends PApplet {
     private Transition[] box;   // Array to hold transition boxes for scene change
     private Structures[] build; // Array to hold structures.
     private Villager[] villagers;
+    private Quest questboard;
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
+    private int eHold = 0;
 
     // Variable counter to track current scenes
     private int scene = 5;
@@ -39,6 +41,7 @@ public class Sketching extends PApplet {
                 time = 0;   // Time delay counter
     private boolean fadein = true,  // To control fade-in effect
                     waiter = false; // To control the delay and trigger the next scene
+    private boolean waiti[] = new boolean[15];
 
     // Variables for typing animation for single line
     private String text = "February 3, 1045 BCE,"; // Text to display
@@ -75,6 +78,7 @@ public class Sketching extends PApplet {
         box = new Transition[5]; // Declaring the size of the box object array
         build = new Structures[6];
         villagers = new Villager[3];
+        questboard = new Quest(this);
         
         
         
@@ -96,10 +100,11 @@ public class Sketching extends PApplet {
         build[5].changeProp(5);
 
 
-        villagers[0] = new Villager(this,350,250,"oldman");
-        villagers[1] = new Villager(this,250,250,"mob","v1");
+        villagers[0] = new Villager(this,470,280,"oldman");
+        villagers[0].changeProp(0);
+        villagers[1] = new Villager(this,50,250,"mob","v1");
         villagers[1].changeProp(1);
-        villagers[2] = new Villager(this,150,250);
+        villagers[2] = new Villager(this,135,240);
         villagers[2].changeProp(2);
         
         
@@ -281,15 +286,8 @@ public class Sketching extends PApplet {
             colBuild(3);
             colBuild(4);
             colBuild(5);
-            villagers[0].draw();
-            villagers[1].draw();
-            villagers[2].draw();
-             villagers[0].drawHitbox();
-             villagers[1].drawHitbox();villagers[2].drawHitbox();
-             
-            colVil(0);
-            colVil(1);
-            colVil(2);
+           drawVillagerIfActive(1);
+
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
@@ -417,6 +415,7 @@ public class Sketching extends PApplet {
             colBuild(3);
             colBuild(4);
 
+           drawVillagerIfActive(2);
           
             // Transition box positions and draw.
             box[1].changeBox(420, 494, 40, 10);
@@ -477,6 +476,11 @@ public class Sketching extends PApplet {
             colBuild(1);
             colBuild(2);
             colBuild(3);
+            villagers[0].draw();
+
+             villagers[0].drawHitbox();
+
+            colVil(0);
 
 
             // Transition box positions and draw.
@@ -491,7 +495,9 @@ public class Sketching extends PApplet {
             leftuptToRightup();
             rightuptToRightbot();
         }
-        mousePressed();
+        if (scene == 5 || scene == 6||scene == 7|| scene == 8) {
+            questboard.draw();
+        }
     }
     
     public void colBuild(int index){
@@ -501,21 +507,92 @@ public class Sketching extends PApplet {
                 if (you.lastdirection.equals("down")) {
                     you.lastdirection = "up";
                 }
-                if (you.lastdirection.equals("up")) {
+                else if (you.lastdirection.equals("up")) {
                     you.lastdirection = "down";
                 }
-                if (you.lastdirection.equals("right")) {
+                else if (you.lastdirection.equals("right")) {
                     you.lastdirection = "left";
+                }
+                else if (you.lastdirection.equals("left")) {
+                    you.lastdirection = "right";
                 }
         }
     }
+    /**      villagers[0] = new Villager(this,470,280,"oldman");
+        villagers[0].changeProp(0);
+        villagers[1] = new Villager(this,50,250,"mob","v1");
+        villagers[1].changeProp(1);
+        villagers[2] = new Villager(this,135,240);
+        villagers[2].changeProp(2);*/
+    private int dialogueStage;
     
-        public void colVil(int index){
-        if (you.isCollidingWith(villagers[index])) {
-                System.out.println("TOUCHED villager");
-                you.move(you.oldx, you.oldy);
+ public void colVil(int index) {
+    if (you.isCollidingWith(villagers[index])) {
+        System.out.println("TOUCHED villager");
+
+        // Villager 1 interaction
+        if (!Quest.vilTrack[1] && index == 1) {
+            if (eHold == 0 || eHold == 4) {
+                fill(255);
+                text("E to Interact", you.x, you.y);
+            } else if (eHold == 1) {
+                you.setPos(70,245);
+                speed = 0;
+                dialogueStage =1;
+                eHold = 2;
+                System.out.print("done" + eHold);
+                }   
+            if (dialogueStage == 1) {
+                text("Nian is coming... \nleave", 70,230);
+                waiti[0] = wait(100); 
+                if (waiti[0]){
+                    dialogueStage =2;
+                    System.out.print("done2");
+                }
+            }
+            if (dialogueStage == 2) {
+                text(Quest.dialogue[0][0], 70,230);
+                waiti[1] = wait(100); 
+                if (waiti[1]){
+                    dialogueStage =3;
+                }
+            }
+            if (dialogueStage == 3) {
+                text(Quest.dialogue[0][1], 70,230);
+                waiti[2] = wait(100); 
+                if (waiti[2]){
+                    dialogueStage =4;
+                }
+            }
+            if (dialogueStage == 4) {
+                text(Quest.dialogue[0][2], 70,230);
+                waiti[3] = wait(100); 
+                if (waiti[3]){
+                    Quest.vilTrack[1] = true;
+                    Quest.track++;
+                    eHold = 3;
+                    speed = 5;
+                }
+            }
         }
+    
+            
+  
+
+        
+        
     }
+}
+
+        
+        public void drawVillagerIfActive(int index) {
+    if (!Quest.vilTrack[index]) {
+        villagers[index].draw();
+        villagers[index].drawHitbox();
+        colVil(index);
+    }
+}
+
     public void loopBuild(int count){
         for (int i=0; i<count;i++){
             colBuild(i);
@@ -548,7 +625,7 @@ public class Sketching extends PApplet {
             scene = 8;
             build[0].changePos(30, 190);
             build[0].changeProp(3);
-            build[1].changePos(240, 160);
+            build[1].changePos(240, 150);
             build[1].changeProp(6);
             build[2].changePos(256, 460);
             build[2].changeProp(0);
@@ -578,7 +655,7 @@ public class Sketching extends PApplet {
             scene = 8;
                       build[0].changePos(30, 190);
             build[0].changeProp(3);
-            build[1].changePos(240, 160);
+            build[1].changePos(240, 150);
             build[1].changeProp(6);
             build[2].changePos(256, 460);
             build[2].changeProp(0);
@@ -594,7 +671,7 @@ public class Sketching extends PApplet {
             scene = 8;
                 build[0].changePos(30, 190);
             build[0].changeProp(3);
-            build[1].changePos(240, 160);
+            build[1].changePos(240, 150);
             build[1].changeProp(6);
             build[2].changePos(256, 460);
             build[2].changeProp(0);
@@ -727,6 +804,7 @@ build[4].changeProp(2);
         if (key == 's') sHold = true;
         if (key == 'a') aHold = true;
         if (key == 'd') dHold = true;
+        if (key == 'e') eHold = 1;
     }
 
     /**
@@ -738,9 +816,9 @@ build[4].changeProp(2);
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
     }
-    
+    /**
     public void mousePressed(){
         fill(255);
         text(mouseX + "," + mouseY,0,30);
-    }
+    }*/
 }
