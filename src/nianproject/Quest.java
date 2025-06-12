@@ -11,7 +11,7 @@ import processing.core.PApplet;
  * @author Jacob Zheng
  */
 public class Quest extends Props{
-    protected String[] quests = {"Warn the \nOther Villagers", "Gather Food", "Pump Water","Collect Red Cloth","Collect Candles","Collect a Lantern", "Wear Red Clothes", "Find a Firecracker"}; 
+    protected String[] quests = {"Warn the \nOther Villagers", "Gather Food", "Pump Water","Collect Red Cloth","Collect Candles","Collect a Lantern", "Find Red Clothes", "Find a Firecracker"}; 
     protected static String[][] dialogue = {{"It is today???","Thank you for \nthe warning.", "I must leave."}, //npc 1
                                      {"Thank you for \nthe warning.", "You saved my butt."},             //npc2
                                      {"Don't run. I know \nhow to defeat Nian. \nJoin me.", "Trust Me.", "Please gather:\nred cloth,\ncandles, lanterns,\nred clothes,\nand firecrackers"}//oldman

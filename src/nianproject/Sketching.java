@@ -5,7 +5,10 @@
 // READ FROM A FILE ITEM DESCIPLTION 
 // add three papers 
 //
-// items, papers, talk back to old gramps, timer
+// items, papers, talk back to old gramps
+// collect all the items, reading papers are optional then talk back to gramps, then cutscene of the entire village red, 
+// tehn cutscen of nian attack, then he runs, the end yaya
+
 
 
 
@@ -26,6 +29,7 @@ public class Sketching extends PApplet {
     private Structures[] build; // Array to hold structures.
     private Villager[] villagers;
     private Quest questboard;
+    private Item[] items;
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
@@ -82,6 +86,7 @@ public class Sketching extends PApplet {
         build = new Structures[6];
         villagers = new Villager[3];
         questboard = new Quest(this);
+        items = new Item[9];
         
         
         
@@ -102,7 +107,7 @@ public class Sketching extends PApplet {
         build[5] = new Structures(this, 540, 50);
         build[5].changeProp(5);
 
-
+        
         villagers[0] = new Villager(this,470,280,"oldman");
         villagers[0].changeProp(0);
         villagers[1] = new Villager(this,50,250,"mob","v1");
@@ -110,6 +115,7 @@ public class Sketching extends PApplet {
         villagers[2] = new Villager(this,135,240);
         villagers[2].changeProp(2);
         
+        items[0] = new Item(this,00,00);
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -250,7 +256,8 @@ public class Sketching extends PApplet {
             // Background change and draw.
             bg.changeScene(2); 
             bg.draw();
-            
+             items[0].draw();
+ 
 
             
             // Reset Distance movement
@@ -512,10 +519,7 @@ public class Sketching extends PApplet {
         if (scene == 5 || scene == 6||scene == 7|| scene == 8) {
             questboard.draw();
             fill(255);
-            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);
-            gameTimerCount++;
-            gameMinuteCount++;
-            if (gameMinuteCount >= 600) {
+                     if (gameMinuteCount >= 600) {
                 gameMinuteCount = 0;
                 minutes++;
                 if (minutes >=60){
@@ -523,6 +527,17 @@ public class Sketching extends PApplet {
                     hour++;
                 }
             }
+            if (minutes < 10) {text(hour+":0" +minutes + "  " + gameMinuteCount , 280,20);} else {
+            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);}
+            gameTimerCount++;
+            gameMinuteCount++;
+   
+           if (minutes == 0 && hour ==12){
+               speed=0;
+               scene = 10;
+               fill(255);
+               text("game over", 250,250);
+           }
         }
         mousePressed();
     }
