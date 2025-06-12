@@ -498,6 +498,7 @@ public class Sketching extends PApplet {
         if (scene == 5 || scene == 6||scene == 7|| scene == 8) {
             questboard.draw();
         }
+        mousePressed();
     }
     
     public void colBuild(int index){
@@ -524,57 +525,63 @@ public class Sketching extends PApplet {
         villagers[1].changeProp(1);
         villagers[2] = new Villager(this,135,240);
         villagers[2].changeProp(2);*/
-    private int dialogueStage;
+    private int dialogueStage = 0,dialogueStartTime = 0;
     
  public void colVil(int index) {
     if (you.isCollidingWith(villagers[index])) {
         System.out.println("TOUCHED villager");
 
         // Villager 1 interaction
-        if (!Quest.vilTrack[1] && index == 1) {
-            if (eHold == 0 || eHold == 4) {
-                fill(255);
-                text("E to Interact", you.x, you.y);
-            } else if (eHold == 1) {
-                you.setPos(70,245);
-                speed = 0;
-                dialogueStage =1;
-                eHold = 2;
-                System.out.print("done" + eHold);
-                }   
-            if (dialogueStage == 1) {
-                text("Nian is coming... \nleave", 70,230);
-                waiti[0] = wait(100); 
-                if (waiti[0]){
-                    dialogueStage =2;
-                    System.out.print("done2");
-                }
-            }
-            if (dialogueStage == 2) {
-                text(Quest.dialogue[0][0], 70,230);
-                waiti[1] = wait(100); 
-                if (waiti[1]){
-                    dialogueStage =3;
-                }
-            }
-            if (dialogueStage == 3) {
-                text(Quest.dialogue[0][1], 70,230);
-                waiti[2] = wait(100); 
-                if (waiti[2]){
-                    dialogueStage =4;
-                }
-            }
-            if (dialogueStage == 4) {
-                text(Quest.dialogue[0][2], 70,230);
-                waiti[3] = wait(100); 
-                if (waiti[3]){
-                    Quest.vilTrack[1] = true;
-                    Quest.track++;
-                    eHold = 3;
-                    speed = 5;
-                }
-            }
-        }
+       if (!Quest.vilTrack[1] && index == 1) {
+    if (eHold == 0 || eHold==8) {
+        fill(255);
+        text("E to Interact", you.x, you.y);
+    } else if (eHold == 1) {
+        you.setPos(65, 245);
+        speed = 0;
+        text("Nian is coming... \nleave", 70, 230);
+        waiti[0] = wait(100);
+        if (waiti[0]) eHold =2;
+    } else if (eHold == 2) {
+        text(Quest.dialogue[0][0], 70, 230);
+        waiti[1] = wait(100);
+        if (waiti[1]) eHold =3;
+    }
+    else if (eHold == 3) {
+        text(Quest.dialogue[0][1], 70, 230);
+        waiti[2] = wait(100);
+        if (waiti[2]) eHold =4;
+    }    else if (eHold == 4) {
+        text(Quest.dialogue[0][2], 70, 230);
+        waiti[3] = wait(100);
+        if (waiti[3]) {eHold =5; Quest.vilTrack[1] = true; speed =5;}
+    }}
+    
+           if (!Quest.vilTrack[2] && index == 2) {
+    if (eHold == 0 || eHold == 5) {
+        fill(255);
+        text("E to Interact", you.x, you.y);
+        you.lastdirection="left";
+    } else if (eHold == 1) {
+        you.setPos(150, 235);
+        speed = 0;
+        text("Nian is coming... \nleave", 70, 230);
+        waiti[4] = wait(100);
+        if (waiti[4]) eHold =6;
+    } else if (eHold == 6) {
+        text(Quest.dialogue[1][0], 70, 230);
+        waiti[5] = wait(100);
+        if (waiti[5]) eHold =7;
+    }
+      else if (eHold == 7) {
+        text(Quest.dialogue[1][1], 70, 230);
+        waiti[6] = wait(100);
+        if (waiti[6]) {eHold =8; Quest.vilTrack[2] = true; speed =5;}
+    }
+   
+}
+
+
     
             
   
@@ -816,9 +823,9 @@ build[4].changeProp(2);
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
     }
-    /**
+
     public void mousePressed(){
         fill(255);
         text(mouseX + "," + mouseY,0,30);
-    }*/
+    }
 }
