@@ -44,9 +44,9 @@ public class Quest extends Props{
             app.fill(255);
             app.textSize(12);
             app.text(quests[3] + " (" + coltrack[0] + "/1)",5,390);
-            app.text(quests[4] + " (" + coltrack[1] + "/3)",5,410);
+            app.text(quests[4] + " (" + coltrack[1] + "/2)",5,410);
             app.text(quests[5] + " (" + coltrack[2] + "/1)",5,430);
-            app.text(quests[6] + " (" + coltrack[3] + "/2)",5,450);
+            app.text(quests[6] + " (" + coltrack[3] + "/1)",5,450);
             app.text(quests[7] + " (" + coltrack[4] + "/1)",5,470);
         
         }

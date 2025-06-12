@@ -33,7 +33,7 @@ public class Sketching extends PApplet {
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
-    private int eHold = 0;
+    private int eHold = 0 ,fHold=0;
 
     // Variable counter to track current scenes
     private int scene = 5;
@@ -115,7 +115,19 @@ public class Sketching extends PApplet {
         villagers[2] = new Villager(this,135,240);
         villagers[2].changeProp(2);
         
-        items[0] = new Item(this,00,00);
+        items[0] = new Item(this,150,270);
+        items[0].changeProp(0);
+        items[1] = new Item(this,220,270);
+        items[1].changeProp(1);
+        items[2] = new Item(this,290,270);
+         items[2].changeProp(2);
+        items[3] = new Item(this,370,270);
+         items[3].changeProp(3);
+        items[4] = new Item(this,450,270);
+         items[4].changeProp(4);
+        items[5] = new Item(this,530,270);
+        items[5].changeProp(5);
+        
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -256,7 +268,7 @@ public class Sketching extends PApplet {
             // Background change and draw.
             bg.changeScene(2); 
             bg.draw();
-             items[0].draw();
+         
  
 
             
@@ -308,7 +320,21 @@ public class Sketching extends PApplet {
             colBuild(4);
             colBuild(5);
            drawVillagerIfActive(1);
-
+           
+           if (!hideItem[0]) {
+            items[0].draw(); colItem(0); items[0].drawHitbox();
+           }
+                      if (!hideItem[1]) {
+            items[1].draw(); colItem(1); items[1].drawHitbox();
+           }
+                                 if (!hideItem[2]) {
+            items[2].draw(); colItem(2); items[2].drawHitbox();
+           }
+          
+           
+             
+            
+            
             
             // Collision method to check if character is touching the transition boxes
             leftbotToRightbot();
@@ -527,8 +553,8 @@ public class Sketching extends PApplet {
                     hour++;
                 }
             }
-            if (minutes < 10) {text(hour+":0" +minutes + "  " + gameMinuteCount , 280,20);} else {
-            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);}
+            if (minutes < 10) {text(hour+":0" +minutes + "  "  , 280,20);} else { /* + gameMinuteCount*/
+            text(hour+":" +minutes + "  " , 280,20);}
             gameTimerCount++;
             gameMinuteCount++;
    
@@ -541,8 +567,18 @@ public class Sketching extends PApplet {
         }
         mousePressed();
     }
-   
- 
+   private boolean[] hideItem = new boolean[5];
+  public void colItem(int index) {
+    if (you.isCollidingWith(items[index])) {
+        System.out.println("TOUCHED vitem");
+        if (fHold == 0) {
+        fill(255);
+        text("F to Collect", you.x, you.y);
+        } else{        hideItem[index] = true;}
+    }
+  
+  }
+
     
     public void colBuild(int index){
         if (you.isCollidingWith(build[index])) {
@@ -650,12 +686,12 @@ public class Sketching extends PApplet {
         if (waiti[10]) eHold =12;}
 else if (eHold == 12) {
         text(Quest.dialogue[2][2], you.x - 20, you.y+70);
-        waiti[11] = wait(150);
+        waiti[11] = wait(120);
         if (waiti[11]) eHold =13;}
     
       else if (eHold == 13) {
-        waiti[12] = wait(50);
-        if (waiti[12]) {eHold =14; speed =5; Quest.questtracker = 1;}
+        waiti[12] = wait(10);
+        if (waiti[12]) {eHold =0; speed =5; Quest.questtracker = 1; Quest.vilTrack[1] = true; Quest.vilTrack[2] = true;}
     }
    
 }
@@ -889,6 +925,7 @@ build[4].changeProp(2);
         if (key == 'a') aHold = true;
         if (key == 'd') dHold = true;
         if (key == 'e') eHold = 1;
+        if (key == 'f') fHold = 1;
     }
 
     /**
@@ -899,6 +936,7 @@ build[4].changeProp(2);
         if (key == 's') sHold = false;
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
+        if (key == 'f') fHold = 0;
     }
 
     public void mousePressed(){
