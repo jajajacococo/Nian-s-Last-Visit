@@ -11,14 +11,15 @@ import processing.core.PApplet;
  * @author Jacob Zheng
  */
 public class Quest extends Props{
-    protected String[] quests = {"Warn the \nOther Villagers","Collect","",""}; 
+    protected String[] quests = {"Warn the \nOther Villagers", "Gather Food", "Pump Water","Collect Red Cloth","Collect Candles","Collect a Lantern", "Wear Red Clothes", "Find a Firecracker"}; 
     protected static String[][] dialogue = {{"It is today???","Thank you for \nthe warning.", "I must leave."}, //npc 1
                                      {"Thank you for \nthe warning.", "You saved my butt."},             //npc2
-                                     {"Don't run. I know \nhow to defeat Nian. \nJoin me."}//oldman
+                                     {"Don't run. I know \nhow to defeat Nian. \nJoin me.", "Trust Me.", "Please gather:\nred cloth,\ncandles, lanterns,\nred clothes,\nand firecrackers"}//oldman
     };
     protected static boolean vilTrack[] = new boolean[3];
-    protected boolean done= false;
-    protected static int track = 0;
+    protected static int questtracker = 0;
+    protected static int[] track = new int [3];
+    protected static int[] coltrack = new int [5];
     
     public Quest(PApplet app) {
         super(app, 0, 0);
@@ -31,12 +32,23 @@ public class Quest extends Props{
     public void draw(){
         app.fill(0,0,0,128);
         app.noStroke();
-        app.rect(x, y, 200, 150);
-        if(!done){
-            
+        app.rect(x, y, 220, 150);
+        if(questtracker == 0){
             app.fill(255);
             app.textSize(12);
-            app.text(quests[0] + "(" + track + "/3)",5,390);
+            app.text(quests[0] + "(" + track[0] + "/3)",5,390);
+            app.fill(128,128,128);
+            app.text(quests[1] + "(" + track[1] + "/3)",5,420);
+            app.text(quests[2] + "(" + track[2] + "/1)",5,440);
+        } else {
+            app.fill(255);
+            app.textSize(12);
+            app.text(quests[3] + " (" + coltrack[0] + "/1)",5,390);
+            app.text(quests[4] + " (" + coltrack[1] + "/3)",5,410);
+            app.text(quests[5] + " (" + coltrack[2] + "/1)",5,430);
+            app.text(quests[6] + " (" + coltrack[3] + "/2)",5,450);
+            app.text(quests[7] + " (" + coltrack[4] + "/1)",5,470);
+        
         }
     }
 }

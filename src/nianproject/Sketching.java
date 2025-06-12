@@ -1,12 +1,15 @@
 // Imports and packages
-  /**
-     * ⬚ 15. Use of file input for retrieving data from a flat-file (database) (DIALOGUE FROM GRAMPS??
-     * ⬚ 16. Use of file output for adding/modifying data to a flat-file (database) USER IDK TAKS COMPLELTE
-     */
+// Use of file output for adding/modifying data to a flat-file (database)
+// When write when taskes are completed. and write if sucess and score and write if fail and score 
+//  
+// READ FROM A FILE ITEM DESCIPLTION 
+// add three papers 
+//
+// items, papers, talk back to old gramps, timer
 
 
 
-// APPARENTLY THE CLASS BUILDINGS DONT WORK USE A DIFF NAME 
+//
 
 // Imports and packages
 package nianproject;
@@ -118,6 +121,17 @@ public class Sketching extends PApplet {
      * Handles scenes, activating fade transitions, typing animations, character movement.
      * Everything basically.
      */
+    
+    
+    
+    
+    
+    
+    
+     private int gameTimerCount = 0;
+    private int gameMinuteCount = 0;
+    private int hour = 11;
+    private int minutes = 30;
     @Override
     public void draw() {
         
@@ -497,9 +511,23 @@ public class Sketching extends PApplet {
         }
         if (scene == 5 || scene == 6||scene == 7|| scene == 8) {
             questboard.draw();
+            fill(255);
+            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);
+            gameTimerCount++;
+            gameMinuteCount++;
+            if (gameMinuteCount >= 600) {
+                gameMinuteCount = 0;
+                minutes++;
+                if (minutes >=60){
+                    minutes = 0;
+                    hour++;
+                }
+            }
         }
         mousePressed();
     }
+   
+ 
     
     public void colBuild(int index){
         if (you.isCollidingWith(build[index])) {
@@ -539,22 +567,22 @@ public class Sketching extends PApplet {
     } else if (eHold == 1) {
         you.setPos(65, 245);
         speed = 0;
-        text("Nian is coming... \nleave", 70, 230);
-        waiti[0] = wait(100);
+        text("Nian is coming... \nleave", you.x, you.y-10);
+        waiti[0] = wait(50);
         if (waiti[0]) eHold =2;
     } else if (eHold == 2) {
-        text(Quest.dialogue[0][0], 70, 230);
-        waiti[1] = wait(100);
+        text(Quest.dialogue[0][0], 40, 230);
+        waiti[1] = wait(50);
         if (waiti[1]) eHold =3;
     }
     else if (eHold == 3) {
-        text(Quest.dialogue[0][1], 70, 230);
-        waiti[2] = wait(100);
+        text(Quest.dialogue[0][1], 40, 230);
+        waiti[2] = wait(50);
         if (waiti[2]) eHold =4;
     }    else if (eHold == 4) {
-        text(Quest.dialogue[0][2], 70, 230);
-        waiti[3] = wait(100);
-        if (waiti[3]) {eHold =5; Quest.vilTrack[1] = true; speed =5;}
+        text(Quest.dialogue[0][2], 40, 230);
+        waiti[3] = wait(50);
+        if (waiti[3]) {eHold =5; Quest.vilTrack[1] = true; speed =5; Quest.track[0]++;}
     }}
     
            if (!Quest.vilTrack[2] && index == 2) {
@@ -565,23 +593,57 @@ public class Sketching extends PApplet {
     } else if (eHold == 1) {
         you.setPos(150, 235);
         speed = 0;
-        text("Nian is coming... \nleave", 70, 230);
-        waiti[4] = wait(100);
+        text("Nian is coming... \nleave", you.x, you.y-10);
+        waiti[4] = wait(50);
         if (waiti[4]) eHold =6;
     } else if (eHold == 6) {
         text(Quest.dialogue[1][0], 70, 230);
-        waiti[5] = wait(100);
+        waiti[5] = wait(50);
         if (waiti[5]) eHold =7;
     }
       else if (eHold == 7) {
         text(Quest.dialogue[1][1], 70, 230);
-        waiti[6] = wait(100);
-        if (waiti[6]) {eHold =8; Quest.vilTrack[2] = true; speed =5;}
+        waiti[6] = wait(50);
+        if (waiti[6]) {eHold =8; Quest.vilTrack[2] = true; speed =5; Quest.track[0]++;}
     }
    
 }
 
-
+    if (!Quest.vilTrack[0] && index == 0) {
+    if (eHold == 0 || eHold == 5 || eHold ==8) {
+        fill(255);
+        text("E to Interact", you.x, you.y);
+        you.lastdirection="right";
+    } else if (eHold == 1) {
+        you.setPos(425, 275);
+        speed = 0;
+        text("Nian is coming... \nrun...", you.x, you.y-10);
+        waiti[7] = wait(100);
+        if (waiti[7]) eHold =9;
+    } else if (eHold == 9) {
+        text(Quest.dialogue[2][0], you.x + 5, you.y+70);
+        waiti[8] = wait(150);
+        if (waiti[8]) eHold =10;
+        
+    } else if (eHold ==10) {
+        text("How?", you.x, you.y-10);
+        waiti[9] = wait(50);
+        if (waiti[9]) eHold =11;
+    }else if (eHold == 11) {
+        text(Quest.dialogue[2][1], you.x + 5, you.y+70);
+        waiti[10] = wait(50);
+        if (waiti[10]) eHold =12;}
+else if (eHold == 12) {
+        text(Quest.dialogue[2][2], you.x - 20, you.y+70);
+        waiti[11] = wait(150);
+        if (waiti[11]) eHold =13;}
+    
+      else if (eHold == 13) {
+        waiti[12] = wait(50);
+        if (waiti[12]) {eHold =14; speed =5; Quest.questtracker = 1;}
+    }
+   
+}
     
             
   
