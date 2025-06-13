@@ -604,6 +604,7 @@ public class Sketching extends PApplet {
                 fadein = true;
                 opac = 255;
                 wait = 0;
+                Score.writeFileState(true, hour+":" +minutes);
             } 
             
            
@@ -620,7 +621,15 @@ public class Sketching extends PApplet {
             textSize(32);
             text("game over", 200,250);
             fadeinout(80, 5); 
-          }
+            waiter = wait(50); // delay
+            if (!fadein && opac >= 255 && waiter) {
+                waiter = false;
+                scene = 15;
+                fadein = true;
+                opac = 255;
+                wait = 0;
+            Score.writeFileState(false, "lose");
+          }}
         
         
             
@@ -650,11 +659,12 @@ public class Sketching extends PApplet {
           public void colPaper(int index) {
     if (you.isCollidingWith(paper[index])) {
         text(paper[index].text,you.x,you.y);
+        Score.interaction("paper");
     }}
    private boolean[] hideItem = new boolean[15];
   public void colItem(int index) {
     if (you.isCollidingWith(items[index])) {
-        System.out.println("TOUCHED vitem");
+        Score.interaction("item");
         if (fHold == 0) {
         fill(255);
         text("F to Collect", you.x, you.y);
@@ -663,48 +673,63 @@ public class Sketching extends PApplet {
             switch(index){
                 case 0:
                     Quest.coltrack[0]++;
+                    Score.writeFileTask("Collected Cloth");
                     break;
                 case 1:
                     Quest.coltrack[1]++;
+                    Score.writeFileTask("Collected Lantern");
                     break;
                                     case 2:
                     Quest.coltrack[2]++;
+                    Score.writeFileTask("Collected Suit");
                     break;
                                     case 3:
                     Quest.coltrack[3]++;
+                    Score.writeFileTask("Collected Candle");
                     break;
                                     case 4:
                     Quest.coltrack[3]++;
+                    Score.writeFileTask("Collected Candle");
                     break;
                     case 5:
                     Quest.coltrack[4]++;
+                    Score.writeFileTask("Collected Firecracker");
                     break;
                     case 6:
                     Quest.coltrack[1]++;
+                    Score.writeFileTask("Collected Lantern");
                     break;
                     case 7:
                     Quest.coltrack[4]++;
+                    Score.writeFileTask("Collected Firecracker");
                     break;
                     case 8:
                     Quest.coltrack[4]++;
+                    Score.writeFileTask("Collected Firecracker");
                     break;
                     case 9:
                     Quest.coltrack[0]++;
+                    Score.writeFileTask("Collected Cloth");
                     break;
                     case 10:
                     Quest.coltrack[0]++;
+                    Score.writeFileTask("Collected Cloth");
                     break;
                     case 11:
                     Quest.coltrack[1]++;
+                    Score.writeFileTask("Collected Lantern");
                     break;
                     case 12:
                     Quest.coltrack[1]++;
+                    Score.writeFileTask("Collected Lantern");
                     break;
                     case 13:
                     Quest.coltrack[0]++;
+                    Score.writeFileTask("Collected Cloth");
                     break;
                     case 14:
                     Quest.coltrack[0]++;
+                    Score.writeFileTask("Collected Cloth");
                     break;
                     
             }
@@ -716,7 +741,7 @@ public class Sketching extends PApplet {
     
     public void colBuild(int index){
         if (you.isCollidingWith(build[index])) {
-                System.out.println("TOUCHED building");
+                Score.interaction("building");
                 you.move(you.oldx, you.oldy);
                 if (you.lastdirection.equals("down")) {
                     you.lastdirection = "up";
@@ -732,18 +757,13 @@ public class Sketching extends PApplet {
                 }
         }
     }
-    /**      villagers[0] = new Villager(this,470,280,"oldman");
-        villagers[0].changeProp(0);
-        villagers[1] = new Villager(this,50,250,"mob","v1");
-        villagers[1].changeProp(1);
-        villagers[2] = new Villager(this,135,240);
-        villagers[2].changeProp(2);*/
+ 
     private int dialogueStage = 0,dialogueStartTime = 0;
     
  public void colVil(int index) {
      textSize(12);
     if (you.isCollidingWith(villagers[index])) {
-        System.out.println("TOUCHED villager");
+        Score.interaction("villager");
 
         // Villager 1 interaction
        if (!Quest.vilTrack[1] && index == 1) {
@@ -889,7 +909,8 @@ else if (eHold == 12) {
      */
     public void rightuptToRightbot() {
         if (you.isCollidingWith(box[3]) && scene == 8) {
-            System.out.println("TOUCHED lu to ru");
+          
+            Score.transition("Right Up to Right Bottom");
             scene = 6;
             build[0].changePos(230, 150);
             build[0].changeProp(0);
@@ -905,7 +926,7 @@ else if (eHold == 12) {
             build[5].changeProp(5);
             you.setPos(130, 10);
         } else if (you.isCollidingWith(box[3]) && scene == 6) {
-            System.out.println("TOUCHED lu to ru");
+            Score.transition("Right Bottom to Right Up");
             scene = 8;
             build[0].changePos(30, 190);
             build[0].changeProp(3);
@@ -919,7 +940,7 @@ else if (eHold == 12) {
         }
 
         if (you.isCollidingWith(box[4]) && scene == 8) {
-            System.out.println("TOUCHED lu to ru");
+            Score.transition("Right Up to Right Bottom");
             scene = 6;
             build[0].changePos(230, 150);
             build[0].changeProp(0);
@@ -935,7 +956,7 @@ else if (eHold == 12) {
             build[5].changeProp(5);
             you.setPos(420,10);
         } else if (you.isCollidingWith(box[4]) && scene == 6) {
-            System.out.println("TOUCHED lu to ru");
+            Score.transition("Right Bottom to Right Up");
             scene = 8;
                       build[0].changePos(30, 190);
             build[0].changeProp(3);
@@ -951,7 +972,7 @@ else if (eHold == 12) {
 
     public void leftuptToRightup() {
         if (you.isCollidingWith(box[2]) && scene == 7) {
-            System.out.println("TOUCHED lu to ru");
+             Score.transition("Left Up to Right Up");
             scene = 8;
                 build[0].changePos(30, 190);
             build[0].changeProp(3);
@@ -963,7 +984,7 @@ else if (eHold == 12) {
             build[3].changeProp(5);
             you.setPos(-4, 305);
         } else if (you.isCollidingWith(box[2]) && scene == 8) {
-            System.out.println("TOUCHED ru to lu");
+             Score.transition("Right Up to Left Up");
             scene = 7;
     build[0].changePos(250, 460);
 build[1].changePos(77, 380);
@@ -980,7 +1001,7 @@ build[4].changeProp(2);
 
     public void leftbotToRightbot() {
         if (you.isCollidingWith(box[0]) && scene == 5) {
-            System.out.println("TOUCHED lb to rb");
+             Score.transition("Left Bottom to Right Bottom");
             scene = 6;
             build[0].changePos(230, 150);
             build[0].changeProp(0);
@@ -996,7 +1017,7 @@ build[4].changeProp(2);
             build[5].changeProp(5);
             you.setPos(-5, 265);
         } else if (you.isCollidingWith(box[0]) && scene == 6) {
-            System.out.println("TOUCHED rb to lb");
+             Score.transition("Right Bottom to Left Bottom");
             scene = 5;
             build[0].changePos(250, 150);
             build[0].changeProp(0);
@@ -1016,7 +1037,7 @@ build[4].changeProp(2);
 
     public void leftbotToLeftup() {
         if (you.isCollidingWith(box[1]) && scene == 5) {
-            System.out.println("TOUCHED lb to lu");
+             Score.transition("Left Bottom to Left Up");
             scene = 7;
 build[0].changePos(250, 460);
 build[1].changePos(77, 380);
@@ -1029,7 +1050,7 @@ build[4].changePos(460, 250);
 build[4].changeProp(2);
             you.setPos(410, 430);
         } else if (you.isCollidingWith(box[1]) && scene == 7) {
-            System.out.println("TOUCHED lu to lb");
+             Score.transition("Left Up to Left Bottom");
             scene = 5;
             build[0].changePos(250, 150);
             build[0].changeProp(0);

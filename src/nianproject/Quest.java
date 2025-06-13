@@ -44,7 +44,7 @@ public class Quest extends Props{
             app.text(quests[2] + "(" + track[2] + "/1)",5,440);
         } else {
             if (coltrack[0] == 5 && coltrack[1] == 4 && coltrack[2] == 1 && coltrack[3] == 2 && coltrack[4] ==3){
-            app.fill(0,255,0);done=true;}
+            app.fill(0,255,0);done=true; Score.writeFileTask("ALL TASKS COMPLETED");}
             else {app.fill(255); }
             app.textSize(12);
             app.text(quests[3] + " (" + coltrack[0] + "/5)",5,390);
