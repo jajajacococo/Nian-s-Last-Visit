@@ -32,6 +32,21 @@ public class Scene {
             case 3:
                 current = app.loadImage("imgs/NianAttack.png");
                 break;
+            case 4:
+                current = app.loadImage("imgs/Win.png");
+                break;
+            case 5:
+                current = app.loadImage("imgs/lose.png");
+                break;
+                            case 6:
+                current = app.loadImage("imgs/attack.png");
+                break;
+                                        case 7:
+                current = app.loadImage("imgs/scared.png");
+                break;
+                                                        case 8:
+                current = app.loadImage("imgs/hiding.png");
+                break;
                 
         }
     }

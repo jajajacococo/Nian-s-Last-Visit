@@ -5,9 +5,8 @@
 // READ FROM A FILE ITEM DESCIPLTION 
 // add three papers 
 //
-// items, papers, talk back to old gramps
-// collect all the items, reading papers are optional then talk back to gramps, then cutscene of the entire village red, 
-// tehn cutscen of nian attack, then he runs, the end yaya
+//  papers, talk back to old gramps
+// reading papers are optional t
 
 
 
@@ -30,6 +29,7 @@ public class Sketching extends PApplet {
     private Villager[] villagers;
     private Quest questboard;
     private Item[] items;
+    private Paper[] paper;
 
     // Variable to track key press states
     private boolean wHold = false, sHold = false, aHold = false, dHold = false;
@@ -86,7 +86,8 @@ public class Sketching extends PApplet {
         build = new Structures[6];
         villagers = new Villager[3];
         questboard = new Quest(this);
-        items = new Item[9];
+        items = new Item[15];
+        paper = new Paper[3];
         
         
         
@@ -115,19 +116,40 @@ public class Sketching extends PApplet {
         villagers[2] = new Villager(this,135,240);
         villagers[2].changeProp(2);
         
-        items[0] = new Item(this,150,270);
+        items[0] = new Item(this,570,75); // cloth
         items[0].changeProp(0);
-        items[1] = new Item(this,220,270);
+        items[1] = new Item(this,520,265); // lantern
         items[1].changeProp(1);
-        items[2] = new Item(this,290,270);
+        items[2] = new Item(this,220,260); // suit
          items[2].changeProp(2);
-        items[3] = new Item(this,370,270);
+        items[3] = new Item(this,530,260); // candle
          items[3].changeProp(3);
-        items[4] = new Item(this,450,270);
+        items[4] = new Item(this,235,375); // candle 2
          items[4].changeProp(4);
-        items[5] = new Item(this,530,270);
+        items[5] = new Item(this,30,110); // cracker
         items[5].changeProp(5);
+        items[6] = new Item(this,180,400); // lantern
+        items[6].changeProp(1);
+        items[7] = new Item(this,410,300); // cracker
+        items[7].changeProp(5);
+        items[8] = new Item(this,40,350); // cracker
+        items[8].changeProp(5);
+        items[9] = new Item(this,150,10); // cloth
+        items[9].changeProp(0);
+        items[10] = new Item(this,465,120); // cloth
+        items[10].changeProp(0);
+        items[11] = new Item(this,205,250); // lantern
+        items[11].changeProp(1);
+        items[12] = new Item(this,390,250); // lantern
+        items[12].changeProp(1);
+        items[13] = new Item(this,370,400); // cloth
+        items[13].changeProp(0);
+        items[14] = new Item(this,140,420); // cloth
+        items[14].changeProp(0);
         
+        paper[0] = new Paper(this, 350,300,0);
+        paper[1] = new Paper(this, 250,300,1);
+        paper[2] = new Paper(this, 150,300,2);
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -269,8 +291,12 @@ public class Sketching extends PApplet {
             bg.changeScene(2); 
             bg.draw();
          
- 
-
+            paper[0].draw();
+            colPaper(0);
+                        paper[1].draw();
+            colPaper(1);
+                        paper[2].draw();
+            colPaper(2);
             
             // Reset Distance movement
             dx = 0;
@@ -306,34 +332,21 @@ public class Sketching extends PApplet {
             box[1].changeBox(420, -6, 40, 10);
             box[1].draw();
 
+            drawBuild(0);
+            drawBuild(1);
+            drawBuild(2);
+            drawBuild(3);
+            drawBuild(4);
+            drawBuild(5);
 
-            build[0].draw();
-            build[1].draw();
-            build[2].draw();  
-            build[3].draw(); 
-            build[4].draw(); 
-            build[5].draw(); 
-            colBuild(0);
-            colBuild(1);
-            colBuild(2);
-            colBuild(3);
-            colBuild(4);
-            colBuild(5);
            drawVillagerIfActive(1);
            
-           if (!hideItem[0]) {
-            items[0].draw(); colItem(0); items[0].drawHitbox();
-           }
-                      if (!hideItem[1]) {
-            items[1].draw(); colItem(1); items[1].drawHitbox();
-           }
-                                 if (!hideItem[2]) {
-            items[2].draw(); colItem(2); items[2].drawHitbox();
-           }
-          
+   
            
-             
-            
+            drawItem(0);
+            drawItem(4);
+            drawItem(8);
+            drawItem(9);
             
             
             // Collision method to check if character is touching the transition boxes
@@ -380,18 +393,17 @@ public class Sketching extends PApplet {
             
              // Debug hitbox for character
             you.drawHitbox();
-                            build[0].draw();
-            build[1].draw();
-            build[2].draw();  
-            build[3].draw(); 
-            build[4].draw(); 
-            build[5].draw(); 
-                    colBuild(0);
-            colBuild(1);
-            colBuild(2);
-            colBuild(3);
-            colBuild(4);
-            colBuild(5);
+               drawBuild(0);
+            drawBuild(1);
+            drawBuild(2);
+            drawBuild(3);
+            drawBuild(4);
+            drawBuild(5);
+            
+  
+                        drawItem(3);
+            drawItem(5);
+            drawItem(10);
 
             
             // Transition box positions and draw.
@@ -451,19 +463,20 @@ public class Sketching extends PApplet {
             you.drawHitbox();
  
 
-                    build[0].draw();
-            build[1].draw();
-            build[2].draw();  
-            build[3].draw(); 
-            build[4].draw(); 
-                    colBuild(0);
-            colBuild(1);
-            colBuild(2);
-            colBuild(3);
-            colBuild(4);
+                 drawBuild(0);
+            drawBuild(1);
+            drawBuild(2);
+            drawBuild(3);
+            drawBuild(4);
+  
 
            drawVillagerIfActive(2);
-          
+
+            
+                        drawItem(1);
+            drawItem(2);
+            drawItem(6);
+            drawItem(7);
             // Transition box positions and draw.
             box[1].changeBox(420, 494, 40, 10);
             box[1].draw();
@@ -513,21 +526,18 @@ public class Sketching extends PApplet {
   
 
             
-            build[0].draw();
-            build[1].draw();
-            build[2].draw();  
-            build[3].draw(); 
+            drawBuild(0);
+            drawBuild(1);
+            drawBuild(2);
+            drawBuild(3);
 
+            
+            drawVillagerIfActive(0);
 
-            colBuild(0);
-            colBuild(1);
-            colBuild(2);
-            colBuild(3);
-            villagers[0].draw();
-
-             villagers[0].drawHitbox();
-
-            colVil(0);
+            drawItem(11);
+            drawItem(12);
+            drawItem(13);
+            drawItem(14);
 
 
             // Transition box positions and draw.
@@ -542,10 +552,82 @@ public class Sketching extends PApplet {
             leftuptToRightup();
             rightuptToRightbot();
         }
+        
+        else if (scene == 9) { 
+          // Slide change, draw, fade-in-out transition.
+            slide.changeScene(4); 
+            slide.draw(); 
+            fadeinout(80, 5); 
+            waiter = wait(100); // delay
+            
+            // Reset variables and change scene.
+            if (!fadein && opac >= 255 && waiter) {
+                waiter = false;
+                scene = 10;
+                fadein = true;
+                opac = 255;
+                wait = 0;
+            }}  else if (scene == 10) { 
+          // Slide change, draw, fade-in-out transition.
+            slide.changeScene(6); 
+            slide.draw(); 
+            fadeinout(80, 5); 
+            waiter = wait(100); // delay
+                        // Reset variables and change scene.
+
+            if (!fadein && opac >= 255 && waiter) {
+                waiter = false;
+                scene = 11;
+                fadein = true;
+                opac = 255;
+                wait = 0;
+            } } else if (scene == 11) { 
+          // Slide change, draw, fade-in-out transition.
+            slide.changeScene(7); 
+            slide.draw(); 
+            fadeinout(80, 5); 
+            waiter = wait(100); // delay
+            
+            // Reset variables and change scene.
+            if (!fadein && opac >= 255 && waiter) {
+                waiter = false;
+                scene = 12;
+                fadein = true;
+                opac = 255;
+                wait = 0;
+            } } else if (scene == 12) { 
+          // Slide change, draw, fade-in-out transition.
+            slide.changeScene(8); 
+            slide.draw(); 
+            fill(255);
+            textSize(32);
+            text("game won", 200,250);
+            fadeinout(80, 5); 
+            waiter = wait(100); // delay
+            
+           
+          
+            
+            
+            
+            
+        } else if (scene == 15) { 
+          // Slide change, draw, fade-in-out transition.
+            slide.changeScene(5); 
+            slide.draw(); 
+            fill(255);
+            textSize(32);
+            text("game over", 200,250);
+            fadeinout(80, 5); 
+          }
+        
+        
+            
         if (scene == 5 || scene == 6||scene == 7|| scene == 8) {
             questboard.draw();
+            textSize(12);
             fill(255);
-                     if (gameMinuteCount >= 600) {
+                     if (gameMinuteCount >= 500) {
                 gameMinuteCount = 0;
                 minutes++;
                 if (minutes >=60){
@@ -553,28 +635,79 @@ public class Sketching extends PApplet {
                     hour++;
                 }
             }
-            if (minutes < 10) {text(hour+":0" +minutes + "  "  , 280,20);} else { /* + gameMinuteCount*/
-            text(hour+":" +minutes + "  " , 280,20);}
+            if (minutes < 10) {text(hour+":0" +minutes + "  "  , 280,20);} else { 
+            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);}
             gameTimerCount++;
             gameMinuteCount++;
    
            if (minutes == 0 && hour ==12){
                speed=0;
-               scene = 10;
-               fill(255);
-               text("game over", 250,250);
+               scene = 15;
            }
         }
-        mousePressed();
-    }
-   private boolean[] hideItem = new boolean[5];
+        mousePressed();System.out.println(eHold);}
+          public void colPaper(int index) {
+    if (you.isCollidingWith(paper[index])) {
+        text(paper[index].text,you.x,you.y);
+    }}
+   private boolean[] hideItem = new boolean[15];
   public void colItem(int index) {
     if (you.isCollidingWith(items[index])) {
         System.out.println("TOUCHED vitem");
         if (fHold == 0) {
         fill(255);
         text("F to Collect", you.x, you.y);
-        } else{        hideItem[index] = true;}
+        } else{        
+            hideItem[index] = true;
+            switch(index){
+                case 0:
+                    Quest.coltrack[0]++;
+                    break;
+                case 1:
+                    Quest.coltrack[1]++;
+                    break;
+                                    case 2:
+                    Quest.coltrack[2]++;
+                    break;
+                                    case 3:
+                    Quest.coltrack[3]++;
+                    break;
+                                    case 4:
+                    Quest.coltrack[3]++;
+                    break;
+                    case 5:
+                    Quest.coltrack[4]++;
+                    break;
+                    case 6:
+                    Quest.coltrack[1]++;
+                    break;
+                    case 7:
+                    Quest.coltrack[4]++;
+                    break;
+                    case 8:
+                    Quest.coltrack[4]++;
+                    break;
+                    case 9:
+                    Quest.coltrack[0]++;
+                    break;
+                    case 10:
+                    Quest.coltrack[0]++;
+                    break;
+                    case 11:
+                    Quest.coltrack[1]++;
+                    break;
+                    case 12:
+                    Quest.coltrack[1]++;
+                    break;
+                    case 13:
+                    Quest.coltrack[0]++;
+                    break;
+                    case 14:
+                    Quest.coltrack[0]++;
+                    break;
+                    
+            }
+        }
     }
   
   }
@@ -607,6 +740,7 @@ public class Sketching extends PApplet {
     private int dialogueStage = 0,dialogueStartTime = 0;
     
  public void colVil(int index) {
+     textSize(12);
     if (you.isCollidingWith(villagers[index])) {
         System.out.println("TOUCHED villager");
 
@@ -660,7 +794,7 @@ public class Sketching extends PApplet {
    
 }
 
-    if (!Quest.vilTrack[0] && index == 0) {
+    if (!Quest.vilTrack[0] && index == 0 && !once) {
     if (eHold == 0 || eHold == 5 || eHold ==8) {
         fill(255);
         text("E to Interact", you.x, you.y);
@@ -691,19 +825,41 @@ else if (eHold == 12) {
     
       else if (eHold == 13) {
         waiti[12] = wait(10);
-        if (waiti[12]) {eHold =0; speed =5; Quest.questtracker = 1; Quest.vilTrack[1] = true; Quest.vilTrack[2] = true;}
+        if (waiti[12]) {eHold =14; once = true; speed =5; Quest.questtracker = 1; Quest.vilTrack[1] = true; Quest.vilTrack[2] = true;}
     }
    
 }
-    
+
+    if (!Quest.vilTrack[0] && index == 0 && Quest.done == true) {
+        if (eHold==14){
+        fill(255);
+        text("E to Interact", you.x, you.y);}
+        you.lastdirection="right";
+    if (eHold == 15) {
+        you.setPos(425, 275);
+        text(Quest.dialogue[3][0], you.x + 5, you.y+70);
+        speed = 0; 
+        waiti[13] = wait(150);
+        if (waiti[13]){scene =9;}
+    }}
             
   
 
         
-        
-    }
-}
+    }} private boolean once;
 
+
+        public void drawBuild(int index){
+            build[index].draw();
+            colBuild(index);
+        }
+        public void drawItem(int index){
+            if (Quest.vilTrack[1] == true && Quest.vilTrack[2] ==true && eHold==14) {
+            if (!hideItem[index]) {
+            items[index].draw(); colItem(index); items[index].drawHitbox();
+           }
+            }
+        }
         
         public void drawVillagerIfActive(int index) {
     if (!Quest.vilTrack[index]) {
@@ -924,7 +1080,8 @@ build[4].changeProp(2);
         if (key == 's') sHold = true;
         if (key == 'a') aHold = true;
         if (key == 'd') dHold = true;
-        if (key == 'e') eHold = 1;
+       
+        if (Quest.done) { if (key == 'e') eHold = 15;} else { if (key == 'e') eHold = 1;}
         if (key == 'f') fHold = 1;
     }
 
@@ -937,6 +1094,7 @@ build[4].changeProp(2);
         if (key == 'a') aHold = false;
         if (key == 'd') dHold = false;
         if (key == 'f') fHold = 0;
+        
     }
 
     public void mousePressed(){
