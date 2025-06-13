@@ -1,12 +1,8 @@
 // Imports and packages
 // Use of file output for adding/modifying data to a flat-file (database)
 // When write when taskes are completed. and write if sucess and score and write if fail and score 
-//  
-// READ FROM A FILE ITEM DESCIPLTION 
-// add three papers 
-//
-//  papers, talk back to old gramps
-// reading papers are optional t
+
+
 
 
 
@@ -147,9 +143,9 @@ public class Sketching extends PApplet {
         items[14] = new Item(this,140,420); // cloth
         items[14].changeProp(0);
         
-        paper[0] = new Paper(this, 350,300,0);
-        paper[1] = new Paper(this, 250,300,1);
-        paper[2] = new Paper(this, 150,300,2);
+        paper[0] = new Paper(this, 160,110,0);
+        paper[1] = new Paper(this, 200,30,1);
+        paper[2] = new Paper(this, 40,320,2);
         
         // Load pixel Font for tpying animations.
         font = createFont("Pixel.otf", 32); // pixel font file and size 32
@@ -291,12 +287,7 @@ public class Sketching extends PApplet {
             bg.changeScene(2); 
             bg.draw();
          
-            paper[0].draw();
-            colPaper(0);
-                        paper[1].draw();
-            colPaper(1);
-                        paper[2].draw();
-            colPaper(2);
+      
             
             // Reset Distance movement
             dx = 0;
@@ -347,6 +338,8 @@ public class Sketching extends PApplet {
             drawItem(4);
             drawItem(8);
             drawItem(9);
+            
+            drawPaper(0);
             
             
             // Collision method to check if character is touching the transition boxes
@@ -405,7 +398,7 @@ public class Sketching extends PApplet {
             drawItem(5);
             drawItem(10);
 
-            
+            drawPaper(1);
             // Transition box positions and draw.
             box[0].changeBox(-10, 270, 15, 50);
             box[0].draw();
@@ -477,6 +470,7 @@ public class Sketching extends PApplet {
             drawItem(2);
             drawItem(6);
             drawItem(7);
+            drawPaper(2);
             // Transition box positions and draw.
             box[1].changeBox(420, 494, 40, 10);
             box[1].draw();
@@ -557,8 +551,8 @@ public class Sketching extends PApplet {
           // Slide change, draw, fade-in-out transition.
             slide.changeScene(4); 
             slide.draw(); 
-            fadeinout(80, 5); 
-            waiter = wait(100); // delay
+            fadeinout(60, 9); 
+            waiter = wait(30); // delay
             
             // Reset variables and change scene.
             if (!fadein && opac >= 255 && waiter) {
@@ -571,8 +565,8 @@ public class Sketching extends PApplet {
           // Slide change, draw, fade-in-out transition.
             slide.changeScene(6); 
             slide.draw(); 
-            fadeinout(80, 5); 
-            waiter = wait(100); // delay
+            fadeinout(60, 9); 
+            waiter = wait(30); // delay
                         // Reset variables and change scene.
 
             if (!fadein && opac >= 255 && waiter) {
@@ -585,8 +579,8 @@ public class Sketching extends PApplet {
           // Slide change, draw, fade-in-out transition.
             slide.changeScene(7); 
             slide.draw(); 
-            fadeinout(80, 5); 
-            waiter = wait(100); // delay
+            fadeinout(60, 9); 
+            waiter = wait(30); // delay
             
             // Reset variables and change scene.
             if (!fadein && opac >= 255 && waiter) {
@@ -602,8 +596,15 @@ public class Sketching extends PApplet {
             fill(255);
             textSize(32);
             text("game won", 200,250);
-            fadeinout(80, 5); 
-            waiter = wait(100); // delay
+            fadeinout(100, 5); 
+            waiter = wait(50); // delay
+             if (!fadein && opac >= 255 && waiter) {
+                waiter = false;
+                scene = 12;
+                fadein = true;
+                opac = 255;
+                wait = 0;
+            } 
             
            
           
@@ -627,7 +628,7 @@ public class Sketching extends PApplet {
             questboard.draw();
             textSize(12);
             fill(255);
-                     if (gameMinuteCount >= 500) {
+                     if (gameMinuteCount >= 450) {
                 gameMinuteCount = 0;
                 minutes++;
                 if (minutes >=60){
@@ -636,7 +637,7 @@ public class Sketching extends PApplet {
                 }
             }
             if (minutes < 10) {text(hour+":0" +minutes + "  "  , 280,20);} else { 
-            text(hour+":" +minutes + "  " + gameMinuteCount , 280,20);}
+            text(hour+":" +minutes + "  "  , 280,20);}
             gameTimerCount++;
             gameMinuteCount++;
    
@@ -848,11 +849,18 @@ else if (eHold == 12) {
         
     }} private boolean once;
 
-
+    
         public void drawBuild(int index){
             build[index].draw();
             colBuild(index);
         }
+        
+        public void drawPaper(int index){
+            paper[index].draw();
+            paper[index].drawHitbox();
+            colPaper(index);
+
+        } 
         public void drawItem(int index){
             if (Quest.vilTrack[1] == true && Quest.vilTrack[2] ==true && eHold==14) {
             if (!hideItem[index]) {
@@ -1081,7 +1089,7 @@ build[4].changeProp(2);
         if (key == 'a') aHold = true;
         if (key == 'd') dHold = true;
        
-        if (Quest.done) { if (key == 'e') eHold = 15;} else { if (key == 'e') eHold = 1;}
+        if (Quest.done) { if (key == 'e') eHold = 15;}else if (Quest.vilTrack[1] && Quest.vilTrack[2] && once){if (key == 'e') eHold = 14;} else { if (key == 'e') eHold = 1;}
         if (key == 'f') fHold = 1;
     }
 

@@ -22,6 +22,10 @@ public Paper(PApplet app, int x, int y, int index ){
         super(app,x,y);
         current = app.loadImage("imgs/paper.png");
         text = read(index).replace("\\n", "\n");
+                offx =7;
+                offy = 5;
+                width= 25;
+                height= 30;
         
 }
 
@@ -50,8 +54,8 @@ public Paper(PApplet app, int x, int y, int index ){
         switch (sprite){
             case 0:
                 current = app.loadImage("imgs/paper.png");
-                offx =3 ;
-                offy = 10;
+                offx =0 ;
+                offy = 0;
                 width= 32;
                 height= 20;
                 break;
