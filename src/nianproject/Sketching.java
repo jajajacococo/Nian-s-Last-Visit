@@ -884,7 +884,7 @@ else if (eHold == 12) {
         public void drawItem(int index){
             if (Quest.vilTrack[1] == true && Quest.vilTrack[2] ==true && eHold==14) {
             if (!hideItem[index]) {
-            items[index].draw(); colItem(index); items[index].drawHitbox();
+            items[index].draw(); colItem(index); //items[index].drawHitbox();
            }
             }
         }
