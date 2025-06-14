@@ -1,26 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+//importing packages 
 package nianproject;
 import processing.core.PApplet;
-import processing.core.PImage;
+
 /**
- *
+ * Background object for map background
  * @author Jacob Zheng
  */
 public class background extends Scene {
-    private int bg;
     
+    /**
+     * constructor for background object
+     * @param app Reference to the main PApplet application
+     */
     public background(PApplet app){
-        super(app);
-        current = app.loadImage("imgs/mapfinal2.png");
+        super(app); //calls parent constructor
+        current = app.loadImage("imgs/mapfinal2.png"); // default set to map 2
     }
+    
+    /**
+     * changes the map image based on parameter
+     * @param x num to change to which map num
+     */
     @Override
     public void changeScene(int x){
                 switch (x) {
-            case 1:
-                current = app.loadImage("imgs/mapfinal1.png");
+            case 1: //if x == 1
+                current = app.loadImage("imgs/mapfinal1.png"); // change map to amp 1
                 break;
             case 2:
                 current = app.loadImage("imgs/mapfinal2.png");

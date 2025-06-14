@@ -1,30 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Importing packages and processing
 package nianproject;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- *
- * @author 342380474
+ * Is an object to represent the scenes/cutscenes
+ * @author Jacob Zheng
  */
 public class Scene {
     protected PImage current;
     protected PApplet app;
 
-    
+    /**
+     * Constructor for Scene
+     * @param app Reference to the main PApplet application
+     */
     public Scene(PApplet app){
         this.app=app;
         current = app.loadImage("imgs/scene1.png");  
     }
     
+    /**
+     * Changes the object current image scene.
+     * @param x the number to which image is set to which
+     */
     public void changeScene(int x){
         switch(x){
-            case 1:
-                current = app.loadImage("imgs/scene1.png");  
+            case 1: // if x == 1
+                current = app.loadImage("imgs/scene1.png");   // change image
                 break;
             case 2:
                 current = app.loadImage("imgs/NianAwaken.png");
@@ -50,7 +53,9 @@ public class Scene {
                 
         }
     }
-    
+      /**
+     * Draws the current scene.
+     */
     public void draw(){
         app.image(current,0,0,600,499);
     }
