@@ -35,7 +35,7 @@ public class Sketching extends PApplet {
 
     // Variables for character movement
     private int dx = 0, dy = 0;          // Movement distance on x and y
-    private int speed = 5;         // Movement speed(2)
+    private int speed = 2;         // Movement speed(2)
 
     // Variables to handle fade-in and fade-out transitions
     private int opac = 255,  // Opacity for the fade effect
@@ -630,7 +630,7 @@ public class Sketching extends PApplet {
             fill(255); // Set text color to white
 
             // Increment in-game minute counter every frame
-            if (gameMinuteCount >= 450) { // 450 frames = 1 in-game minute
+            if (gameMinuteCount >= 350) { // 450 frames = 1 in-game minute
                 gameMinuteCount = 0;
                 minutes++;
 
@@ -643,9 +643,9 @@ public class Sketching extends PApplet {
 
             // Display in-game time (with leading zero if needed)
             if (minutes < 10) {
-                text(hour + ":0" + minutes + "  ", 280, 20);
+                text(hour + ":0" + minutes + " " + "pm", 280, 20);
             } else {
-                text(hour + ":" + minutes + "  ", 280, 20);
+                text(hour + ":" + minutes + " " + "pm", 280, 20);
             }
 
             gameMinuteCount++; // Track progress toward next minute
@@ -784,7 +784,7 @@ public class Sketching extends PApplet {
                     if (waiti[3]) {
                         eHold = 5;
                         Quest.vilTrack[1] = true;
-                        speed = 5;
+                        speed = 2;
                         Quest.track[0]++;
                     }
                 }
@@ -812,7 +812,7 @@ public class Sketching extends PApplet {
                     if (waiti[6]) {
                         eHold = 8;
                         Quest.vilTrack[2] = true;
-                        speed = 5;
+                        speed = 2;
                         Quest.track[0]++;
                     }
                 }
@@ -851,7 +851,7 @@ public class Sketching extends PApplet {
                     if (waiti[12]) {
                         eHold = 14;
                         once = true;
-                        speed = 5;
+                        speed = 2;
                         Quest.questtracker = 1;
                         Quest.vilTrack[1] = true;
                         Quest.vilTrack[2] = true;
