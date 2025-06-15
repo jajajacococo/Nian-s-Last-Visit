@@ -18,7 +18,6 @@ public class Sketching extends PApplet {
     private boolean[] hideItem = new boolean[15]; // array to hold items hide or no
     
     // variables for dialogue 
-    private int dialogueStage = 0,dialogueStartTime = 0;
     private boolean once;
     
     //Variables for the timer
