@@ -31,7 +31,7 @@ public class Sketching extends PApplet {
     private int eHold = 0 ,fHold=0;
 
     // Variable counter to track current scenes
-    private int scene = 5;
+    private int scene = 0;
 
     // Variables for character movement
     private int dx = 0, dy = 0;          // Movement distance on x and y

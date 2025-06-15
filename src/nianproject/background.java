@@ -38,5 +38,11 @@ public class background extends Scene {
                 break;
         }
     }
-    
+    @Override
+    /**
+     * Draws the current scene.
+     */
+    public void draw(){
+        app.image(current,0,0,600,499);
+    }
 }

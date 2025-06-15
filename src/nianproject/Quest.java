@@ -13,7 +13,7 @@ public class Quest extends Props{
     protected static String[][] dialogue = {{"It is today???","Thank you for \nthe warning.", "I must leave."}, //npc 1
                                      {"Thank you for \nthe warning.", "You saved my butt."},             //npc2
                                      {"Don't run. I know \nhow to defeat Nian. \nJoin me.", "Trust Me.", "Please gather:\nred cloth,\ncandles, lanterns,\nred clothes,\nand firecrackers"},//oldman
-                                     {"Good job!\nLet us Prepare for\nthe attack."}
+                                     {"Good job!\nLet us Prepare for\nthe attack."} // old man 2
     };
     // tracks which villagers ahve been interacted with
     protected static boolean vilTrack[] = new boolean[3];
